@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PlayPal · Play, make and discover</title>
+  <meta name="description" content="PlayPal is a safe place for kids aged 8–12 to shop toys, play games and make things.">
+  <meta name="color-scheme" content="light dark">
+
+  <!-- Plus Jakarta Sans (the PlayPal typeface) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+
+  <!-- Apply the saved theme before first paint (avoids a light flash in dark mode) -->
+  <script>
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search).get("theme");
+        var t = q === "dark" || q === "light" ? q : JSON.parse(localStorage.getItem("playpal.theme") || '"light"');
+        if (t === "dark") document.documentElement.setAttribute("data-theme", "dark");
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Shared styles first, then this screen's styles -->
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="modules/home/home.css">
+</head>
+
+<body data-page="home">
+  <a class="pp-skip-link" href="#main">Skip to main content</a>
+
+  <!-- Shared navigation (built by js/components.js) -->
+  <div data-component="nav" data-active="home"></div>
+
+  <main id="main">
+
+    <!-- ===== Hero ===== -->
+    <section class="home-hero" aria-labelledby="hero-title">
+      <div class="pp-container home-hero__inner">
+        <div class="home-hero__text">
+          <span class="pp-tag pp-tag--yellow">For curious kids aged 8–12</span>
+          <h1 class="text-display" id="hero-title">Play, make and discover</h1>
+          <p class="text-body-lg home-hero__lead">Toys to build, games to beat and things to make, all in one easy place.</p>
+          <div class="home-hero__buttons">
+            <a class="pp-btn pp-tone-home" href="modules/toy-shop/toy-shop.html" data-route="toyShop">
+              Shop toys <span class="pp-icon-slot" data-icon="arrow-right" data-size="20"></span>
+            </a>
+            <a class="pp-btn pp-btn--ghost" href="modules/games/games.html" data-route="games">Play a game</a>
+          </div>
+        </div>
+        <div class="home-hero__image">
+          <img src="assets/images/home/hero-banner.png" width="1280" height="1024" fetchpriority="high" decoding="async"
+               alt="Colourful building bricks, a paint palette, a science flask and a board game on cream display stands">
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Continue where you left off ===== -->
+    <section class="home-continue" aria-label="Continue playing">
+      <div class="pp-container">
+        <div class="home-continue__card pp-tone-games">
+          <span class="home-continue__avatar" aria-hidden="true"><span class="pp-icon-slot" data-icon="user" data-size="26"></span></span>
+          <div class="home-continue__text">
+            <p class="text-h3" data-continue-title>Welcome back, Sam!</p>
+            <p class="text-body home-soft" data-continue-sub>Continue Memory Match · Level 2 of 5</p>
+          </div>
+          <div class="pp-progress home-continue__progress" role="progressbar" aria-label="Memory Match progress"
+               aria-valuemin="0" aria-valuemax="5" aria-valuenow="2" style="--progress: 40%" data-continue-progress>
+            <span class="pp-progress__fill"></span>
+          </div>
+          <a class="pp-btn" href="modules/games/games.html" data-route="games" data-query="game=memory-match">Keep playing</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Where to today? ===== -->
+    <section class="home-section" aria-labelledby="where-title">
+      <div class="pp-container home-section__inner">
+        <div class="pp-section-header">
+          <div class="pp-section-header__titles">
+            <h2 class="text-h2" id="where-title">Where to today?</h2>
+            <p class="text-body pp-section-header__sub">Three places to explore. Each has its own colour.</p>
+          </div>
+        </div>
+        <div class="home-grid home-grid--3">
+          <article class="pp-card pp-card--interactive pp-tone-shop">
+            <div class="pp-card__media home-media--wide">
+              <img src="assets/images/home/shop-preview.png" width="1024" height="1024" loading="lazy" decoding="async"
+                   alt="Watercolour paint set with brushes and a painted card">
+            </div>
+            <div class="pp-card__body">
+              <span class="pp-tag">Shop</span>
+              <h3 class="text-h3">Toy Shop</h3>
+              <p class="text-body home-soft">Board games, art kits, building kits and more.</p>
+              <a class="pp-link pp-card__link" href="modules/toy-shop/toy-shop.html" data-route="toyShop">
+                Visit Toy Shop <span class="pp-icon-slot" data-icon="arrow-right" data-size="20"></span>
+              </a>
+            </div>
+          </article>
+          <article class="pp-card pp-card--interactive pp-tone-games">
+            <div class="pp-card__media home-media--wide">
+              <img src="assets/images/home/games-preview.png" width="1024" height="1024" loading="lazy" decoding="async"
+                   alt="Memory match cards laid out face down, with a few turned over">
+            </div>
+            <div class="pp-card__body">
+              <span class="pp-tag">Play</span>
+              <h3 class="text-h3">Games</h3>
+              <p class="text-body home-soft">Tic-Tac-Toe, Memory Match and Word Scramble.</p>
+              <a class="pp-link pp-card__link" href="modules/games/games.html" data-route="games">
+                Play games <span class="pp-icon-slot" data-icon="arrow-right" data-size="20"></span>
+              </a>
+            </div>
+          </article>
+          <article class="pp-card pp-card--interactive pp-tone-activities">
+            <div class="pp-card__media home-media--wide">
+              <img src="assets/images/home/activities-preview.png" width="1024" height="1024" loading="lazy" decoding="async"
+                   alt="Folded paper animals with a glue stick, scissors and coloured paper">
+            </div>
+            <div class="pp-card__body">
+              <span class="pp-tag">Make</span>
+              <h3 class="text-h3">Activities</h3>
+              <p class="text-body home-soft">Colouring sheets, easy crafts and workshops.</p>
+              <a class="pp-link pp-card__link" href="modules/activities/activities.html" data-route="activities">
+                Start making <span class="pp-icon-slot" data-icon="arrow-right" data-size="20"></span>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Choose your category ===== -->
+    <section class="home-section" aria-labelledby="category-title">
+      <div class="pp-container home-section__inner">
+        <div class="pp-section-header pp-tone-shop">
+          <h2 class="text-h2" id="category-title">Choose your category</h2>
+          <a class="pp-link" href="modules/toy-shop/toy-shop.html" data-route="toyShop">
+            See all toys <span class="pp-icon-slot" data-icon="arrow-right" data-size="20"></span>
+          </a>
+        </div>
+        <ul class="home-grid home-grid--5">
+          <li>
+            <a class="home-tile" href="modules/toy-shop/toy-shop.html" data-route="toyShop" data-query="category=board-games">
+              <img src="assets/images/home/category-board-games.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
+              <span class="text-label-button">Board games</span>
+            </a>
+          </li>
+          <li>
+            <a class="home-tile" href="modules/toy-shop/toy-shop.html" data-route="toyShop" data-query="category=art-kits">
+              <img src="assets/images/home/category-art-kits.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
+              <span class="text-label-button">Art kits</span>
+            </a>
+          </li>
+          <li>
+            <a class="home-tile" href="modules/toy-shop/toy-shop.html" data-route="toyShop" data-query="category=building-kits">
+              <img src="assets/images/home/category-building-kits.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
+              <span class="text-label-button">Building kits</span>
+            </a>
+          </li>
+          <li>
+            <a class="home-tile" href="modules/toy-shop/toy-shop.html" data-route="toyShop" data-query="category=science-kits">
+              <img src="assets/images/home/category-science-kits.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
+              <span class="text-label-button">Science kits</span>
+            </a>
+          </li>
+          <li>
+            <a class="home-tile" href="modules/toy-shop/toy-shop.html" data-route="toyShop" data-query="category=creative-stationery">
+              <img src="assets/images/home/category-creative-stationery.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
+              <span class="text-label-button">Creative stationery</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== New arrivals ===== -->
+    <section class="home-section" aria-labelledby="arrivals-title">
+      <div class="pp-container home-section__inner">
+        <div class="pp-section-header pp-tone-shop">
+          <h2 class="text-h2" id="arrivals-title">New arrivals</h2>
+          <a class="pp-link" href="modules/toy-shop/toy-shop.html" data-route="toyShop" data-query="sort=new">
+            See new toys <span class="pp-icon-slot" data-icon="arrow-right" data-size="20"></span>
+          </a>
+        </div>
+        <div class="home-grid home-grid--4">
+
+          <article class="pp-card pp-tone-shop">
+            <div class="pp-card__media home-media--product">
+              <img src="assets/images/home/product-colour-splash-paint-kit.png" width="1024" height="1024" loading="lazy" decoding="async"
+                   alt="Watercolour paint set with brushes and a painted card">
+            </div>
+            <div class="home-product__body">
+              <div class="home-product__meta"><span class="pp-tag">New</span><span class="text-caption home-soft">Ages 8–12</span></div>
+              <h3 class="text-label-button">Colour Splash Paint Kit</h3>
+              <p class="home-rating text-caption home-soft"><span class="pp-icon-slot" data-icon="star" data-size="18"></span>4.8 · 48 reviews</p>
+              <p class="text-h3 home-price">KSh 1,450</p>
+              <button type="button" class="pp-btn pp-btn--block" data-add-to-basket data-product="Colour Splash Paint Kit">Add to basket</button>
+            </div>
+          </article>
+
+          <article class="pp-card pp-tone-shop">
+            <div class="pp-card__media home-media--product">
+              <img src="assets/images/home/product-brick-builder-castle.png" width="1024" height="1024" loading="lazy" decoding="async"
+                   alt="A colourful toy brick castle with towers and flags">
+            </div>
+            <div class="home-product__body">
+              <div class="home-product__meta"><span class="pp-tag">New</span><span class="text-caption home-soft">Ages 8–12</span></div>
+              <h3 class="text-label-button">Brick Builder Castle</h3>
+              <p class="home-rating text-caption home-soft"><span class="pp-icon-slot" data-icon="star" data-size="18"></span>4.8 · 48 reviews</p>
+              <p class="text-h3 home-price">KSh 2,300</p>
+              <button type="button" class="pp-btn pp-btn--block" data-add-to-basket data-product="Brick Builder Castle">Add to basket</button>
+            </div>
+          </article>
+
+          <article class="pp-card pp-tone-shop">
+            <div class="pp-card__media home-media--product">
+              <img src="assets/images/home/product-mini-lab-science-kit.png" width="1024" height="1024" loading="lazy" decoding="async"
+                   alt="A microscope, test tubes and flasks from a mini science lab kit">
+            </div>
+            <div class="home-product__body">
+              <div class="home-product__meta"><span class="pp-tag">New</span><span class="text-caption home-soft">Ages 8–12</span></div>
+              <h3 class="text-label-button">Mini Lab Science Kit</h3>
+              <p class="home-rating text-caption home-soft"><span class="pp-icon-slot" data-icon="star" data-size="18"></span>4.8 · 48 reviews</p>
+              <p class="text-h3 home-price">KSh 1,950</p>
+              <button type="button" class="pp-btn pp-btn--block" data-add-to-basket data-product="Mini Lab Science Kit">Add to basket</button>
+            </div>
+          </article>
+
+          <article class="pp-card pp-tone-shop">
+            <div class="pp-card__media home-media--product">
+              <img src="assets/images/home/product-doodle-dreams-journal.png" width="1024" height="1024" loading="lazy" decoding="async"
+                   alt="A doodle journal with coloured pencils">
+            </div>
+            <div class="home-product__body">
+              <div class="home-product__meta"><span class="pp-tag">New</span><span class="text-caption home-soft">Ages 8–12</span></div>
+              <h3 class="text-label-button">Doodle Dreams Journal</h3>
+              <p class="home-rating text-caption home-soft"><span class="pp-icon-slot" data-icon="star" data-size="18"></span>4.8 · 48 reviews</p>
+              <p class="text-h3 home-price">KSh 850</p>
+              <button type="button" class="pp-btn pp-btn--block" data-add-to-basket data-product="Doodle Dreams Journal">Add to basket</button>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Workshop banner ===== -->
+    <section class="home-section" aria-labelledby="workshop-title">
+      <div class="pp-container home-section__inner">
+        <div class="home-banner">
+          <img src="assets/images/home/workshop-banner.png" width="1536" height="864" loading="lazy" decoding="async"
+               alt="A child building a small robot kit at a living-room table">
+          <div class="home-banner__card pp-tone-activities">
+            <span class="pp-tag">Creative Workshops</span>
+            <h2 class="text-h2" id="workshop-title">Learn to make something new</h2>
+            <p class="text-body home-soft">Join a small group, pick a date and book your spot with a grown-up.</p>
+            <a class="pp-btn" href="modules/activities/activities.html" data-route="activities" data-query="section=workshops">
+              Browse workshops <span class="pp-icon-slot" data-icon="calendar" data-size="20"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Pick a game ===== -->
+    <section class="home-section" aria-labelledby="games-title">
+      <div class="pp-container home-section__inner">
+        <div class="pp-section-header pp-tone-games">
+          <div class="pp-section-header__titles">
+            <h2 class="text-h2" id="games-title">Pick a game</h2>
+            <p class="text-body pp-section-header__sub">Quick games you can play right now. No sign-up needed.</p>
+          </div>
+          <a class="pp-link" href="modules/games/games.html" data-route="games">
+            All games <span class="pp-icon-slot" data-icon="arrow-right" data-size="20"></span>
+          </a>
+        </div>
+        <div class="home-grid home-grid--3">
+          <article class="pp-card pp-tone-games">
+            <div class="pp-card__media home-media--game">
+              <img src="assets/images/home/game-tic-tac-toe.png" width="1024" height="1024" loading="lazy" decoding="async"
+                   alt="A wooden Tic-Tac-Toe board with blue and orange pieces">
+            </div>
+            <div class="pp-card__body">
+              <h3 class="text-h3">Tic-Tac-Toe</h3>
+              <p class="text-body home-soft">1–2 players · 2 minutes</p>
+              <a class="pp-btn pp-btn--block" href="modules/games/games.html" data-route="games" data-query="game=tic-tac-toe" aria-label="Play now: Tic-Tac-Toe">Play now</a>
+            </div>
+          </article>
+          <article class="pp-card pp-tone-games">
+            <div class="pp-card__media home-media--game">
+              <img src="assets/images/home/games-preview.png" width="1024" height="1024" loading="lazy" decoding="async"
+                   alt="Memory match cards laid out face down, with a few turned over">
+            </div>
+            <div class="pp-card__body">
+              <h3 class="text-h3">Memory Match</h3>
+              <p class="text-body home-soft">1 player · 5 levels</p>
+              <a class="pp-btn pp-btn--block" href="modules/games/games.html" data-route="games" data-query="game=memory-match" aria-label="Play now: Memory Match">Play now</a>
+            </div>
+          </article>
+          <article class="pp-card pp-tone-games">
+            <div class="pp-card__media home-media--game">
+              <img src="assets/images/home/game-word-scramble.png" width="1024" height="1024" loading="lazy" decoding="async"
+                   alt="Wooden letter tiles scattered on a table">
+            </div>
+            <div class="pp-card__body">
+              <h3 class="text-h3">Word Scramble</h3>
+              <p class="text-body home-soft">1 player · 3 minutes</p>
+              <a class="pp-btn pp-btn--block" href="modules/games/games.html" data-route="games" data-query="game=word-scramble" aria-label="Play now: Word Scramble">Play now</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Safety strip ===== -->
+    <section class="home-section" aria-label="Staying safe on PlayPal">
+      <div class="pp-container home-section__inner">
+        <ul class="home-safety">
+          <li class="pp-tone-home">
+            <span class="home-safety__icon"><span class="pp-icon-slot" data-icon="lock" data-size="22"></span></span>
+            <span>Ask a grown-up before you buy</span>
+          </li>
+          <li class="pp-tone-activities">
+            <span class="home-safety__icon"><span class="pp-icon-slot" data-icon="check" data-size="22"></span></span>
+            <span>No ads. No chatting with strangers.</span>
+          </li>
+          <li class="pp-tone-shop">
+            <span class="home-safety__icon"><span class="pp-icon-slot" data-icon="help" data-size="22"></span></span>
+            <span>Tap “Need help?” any time</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Shared footer (built by js/components.js) -->
+  <div data-component="footer"></div>
+
+  <noscript>
+    <p style="padding:16px;text-align:center">PlayPal needs JavaScript for the menu and basket.</p>
+  </noscript>
+
+  <!-- Shared scripts first, then this screen's script -->
+  <script src="js/components.js"></script>
+  <script src="js/main.js"></script>
+  <script src="modules/home/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+/* ==========================================================================
+   PlayPal · modules/home/home.css
+   Layout and styling that belongs ONLY to the Home screen.
+   Shared pieces (nav, footer, buttons, tags, cards, links) live in
+   css/components.css; colours and type in css/theme.css.
+   Class prefix: .home-*
+   ========================================================================== */
+
+.home-soft {
+  color: var(--text-ink-soft);
+}
+
+/* ---------- Hero ---------------------------------------------------------- */
+.home-hero {
+  background: var(--surface-cream);
+}
+.home-hero__inner {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  padding-block: 56px;
+}
+.home-hero__text {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+.home-hero__lead {
+  width: 460px;
+  max-width: 100%;
+  color: var(--text-ink-soft);
+}
+.home-hero__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.home-hero__image {
+  flex: none;
+  width: 620px;
+  height: 496px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--surface-white);
+}
+.home-hero__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Continue card ------------------------------------------------- */
+.home-continue {
+  padding-block: 32px;
+}
+.home-continue__card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 24px;
+  border: 1.5px solid var(--surface-line);
+  border-radius: var(--radius-lg);
+}
+.home-continue__avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--tone-100);
+  color: var(--tone-700);
+}
+.home-continue__text {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.home-continue__progress {
+  flex: none;
+  width: 260px;
+}
+
+/* ---------- Generic section + grids -------------------------------------- */
+.home-section__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-block: 40px;
+}
+.home-grid {
+  display: grid;
+  gap: 24px;
+}
+.home-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.home-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.home-grid--5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+/* Card image heights (from Figma) */
+.home-media--wide    { height: 220px; }
+.home-media--product { height: 290px; }
+.home-media--game    { height: 230px; }
+
+/* ---------- Category tiles ------------------------------------------------ */
+.home-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  height: 100%;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  background: var(--surface-cream);
+  color: var(--text-ink);
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.home-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(31, 42, 77, 0.12);
+}
+.home-tile img {
+  width: 100%;
+  height: 180px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+}
+
+/* ---------- Product card -------------------------------------------------- */
+.home-product__body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 20px;
+}
+.home-product__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.home-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.home-price {
+  color: var(--tone-700);
+}
+
+/* ---------- Workshop banner ---------------------------------------------- */
+.home-banner {
+  position: relative;
+  height: 400px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--surface-cream);
+}
+.home-banner > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.home-banner__card {
+  position: absolute;
+  top: 48px;
+  left: 48px;
+  width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  background: var(--surface-white);
+}
+
+/* ---------- Safety strip -------------------------------------------------- */
+.home-safety {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: var(--surface-cream);
+}
+.home-safety li {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.home-safety__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--tone-100);
+  color: var(--tone-700);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .home-hero__inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .home-hero__image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 4;
+    max-height: 520px;
+  }
+  .home-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .home-grid--5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .home-grid--3 { grid-template-columns: minmax(0, 1fr); }
+
+  .home-continue__card {
+    flex-wrap: wrap;
+  }
+  .home-continue__progress {
+    order: 3;
+    flex: 1 1 100%;
+    width: 100%;
+  }
+  .home-continue__card > .pp-btn {
+    order: 4;
+    flex: 1 1 100%;
+  }
+
+  .home-banner {
+    height: auto;
+    border-radius: var(--radius-lg);
+  }
+  .home-banner > img {
+    position: static;
+    height: 240px;
+  }
+  .home-banner__card {
+    position: static;
+    width: auto;
+    border-radius: 0;
+  }
+
+  .home-safety {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 720px) {
+  .home-hero__inner { padding-block: 32px; }
+  .home-grid--5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .home-grid--4 { grid-template-columns: minmax(0, 1fr); }
+}
