@@ -124,26 +124,22 @@
         </div>
 
         <!-- Horizontal progress tracker -->
-        <div
+        <ol
+            role="list"
             id="craft-step-indicators"
             class="activities-step-indicators"
             aria-label="Craft progress"
-        ></div>
+        ></ol>
 
         <!-- Step instructions -->
         <div class="activities-craft-tutorial">
 
             <div class="activities-step-content">
 
-            <p
-                id="craft-step-counter"
-                class="activities-step-counter"
-                aria-live="polite"
-            >
-                Step 1 of 5
-            </p>
-
-            <h4 id="craft-step-title">Pick paper</h4>
+            <h4 id="craft-step-heading" aria-live="polite" aria-atomic="true">
+                <span id="craft-step-counter">Step 1 of 5</span>:
+                <span id="craft-step-title">Pick your paper</span>
+            </h4>
 
             <p id="craft-step-description">
                 Choose a sheet of paper for your lantern.
@@ -164,14 +160,21 @@
                 class="activities-button activities-button-primary"
                 type="button"
                 >
-                Next step →
+                <span id="craft-next-label">Next step</span>
+                <img src="./assets/images/activities/crafts/arrow-right.svg" alt="" width="20" height="20" aria-hidden="true">
                 </button>
             </div>
 
             </div>
 
-            <!-- Image slot for future integration -->
-            <div class="activities-craft-image-slot" aria-hidden="true"></div>
+            <img
+                class="activities-craft-image"
+                src="./assets/images/activities/crafts/paper-crafts.png"
+                alt="Colourful folded paper crafts with glue, scissors and tape"
+                width="220"
+                height="160"
+                loading="lazy"
+            >
 
         </div>
 

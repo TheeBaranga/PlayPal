@@ -41,23 +41,28 @@ export const crafts = [
     steps: [
       {
         title: "Pick paper",
+        heading: "Pick your paper",
         instruction: "Choose a sheet of paper for your lantern."
       },
       {
         title: "Fold",
+        heading: "Fold the paper",
         instruction:
           "Fold your paper in half, like closing a book. Press along the fold with your finger to make it flat and neat."
       },
       {
         title: "Cut",
-        instruction: "Follow the cutting guide carefully. Ask a grown-up for help with scissors."
+        heading: "Cut the folded paper",
+        instruction: "Keep the fold at the bottom. Cut evenly spaced slits up from the fold, stopping before the top edge. Ask a grown-up for help with scissors."
+      },
+      {
+        title: "Glue",
+        heading: "Glue your lantern",
+        instruction: "Unfold the paper. Bring the two short edges together to make a tube, overlap them and glue them in place. Let the glue dry."
       },
       {
         title: "Shine",
-        instruction: "Open and decorate your paper lantern."
-      },
-      {
-        title: "Finish",
+        heading: "Decorate and shine",
         instruction: "Show off your finished lantern. Use an LED light only, never a candle."
       }
     ]

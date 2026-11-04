@@ -34,6 +34,7 @@ function renderColouringSheets() {
           class="activities-button activities-button-primary"
           href="${sheet.download}"
           download
+          aria-label="Download ${sheet.title} colouring sheet (PDF)"
         >
           Download PDF
         </a>
@@ -71,35 +72,36 @@ function updateCraftStep() {
   document.getElementById("craft-step-counter").textContent =
     `Step ${step.stepNumber} of ${step.totalSteps}`;
 
-  document.getElementById("craft-step-title").textContent = step.title;
+  document.getElementById("craft-step-title").textContent = step.heading ?? step.title;
   document.getElementById("craft-step-description").textContent =
     step.instruction;
 
   const backButton = document.getElementById("craft-back");
-  const nextButton = document.getElementById("craft-next");
 
   backButton.disabled = step.isFirstStep;
-  nextButton.textContent = step.isLastStep ? "Start again" : "Next step";
+  document.getElementById("craft-next-label").textContent =
+    step.isLastStep ? "Start again" : "Next step";
 
   const craft = getCrafts().find(item => item.id === craftId);
 
-  
-document.getElementById("craft-step-indicators").innerHTML =
-  craft.steps.map((item, index) => `
-    <div class="activities-step-indicator
-      ${index === currentStepIndex ? "is-active" : ""}
-      ${index < currentStepIndex ? "is-complete" : ""}">
 
-      <span class="activities-step-number">
-        ${index < currentStepIndex ? "✓" : index + 1}
-      </span>
-
-      <span class="activities-step-label">
-        ${item.title}
-      </span>
-
-    </div>
-  `).join("");
+  document.getElementById("craft-step-indicators").innerHTML =
+    craft.steps.map((item, index) => `
+      <li class="activities-step-indicator
+        ${index === currentStepIndex ? "is-active" : ""}
+        ${index < currentStepIndex ? "is-complete" : ""}"
+        ${index === currentStepIndex ? 'aria-current="step"' : ''}>
+        <span class="activities-step-number" aria-hidden="true">
+          ${index < currentStepIndex
+            ? '<img src="./assets/images/activities/crafts/check.svg" alt="" width="22" height="22">'
+            : index + 1}
+        </span>
+        <span class="activities-step-label">
+          <span class="activities-sr-only">Step ${index + 1}: </span>${item.title}
+          ${index < currentStepIndex ? '<span class="activities-sr-only"> (completed)</span>' : ''}
+        </span>
+      </li>
+    `).join("");
 
 }
 
@@ -160,6 +162,7 @@ function renderWorkshops() {
           type="button"
           class="activities-button activities-button-primary"
           data-book-workshop="${workshop.id}"
+          aria-label="Book a spot for ${workshop.title}"
           ${workshop.availableSpots <= 0 ? "disabled" : ""}
         >
           ${workshop.availableSpots > 0 ? "Book a spot" : "Fully booked"}
@@ -191,7 +194,30 @@ function setupWorkshopBooking() {
     const result = requestWorkshopBooking(workshopId);
 
     feedback.textContent = result.message;
-    feedback.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    feedback.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "nearest"
+    });
+  });
+}
+
+// Handle failed image requests as well as missing image paths.
+function setupImageFallbacks() {
+  document.querySelectorAll("#main-content img").forEach(image => {
+    // Decorative icons remain decorative; only content images need a placeholder.
+    if (!image.alt) return;
+    const showPlaceholder = () => {
+      const placeholder = document.createElement("div");
+      placeholder.className = "activities-image-placeholder";
+      placeholder.setAttribute("role", "img");
+      placeholder.setAttribute("aria-label", `${image.alt} - image unavailable`);
+      if (image.classList.contains("activities-craft-image")) {
+        placeholder.classList.add("activities-craft-image");
+      }
+      image.replaceWith(placeholder);
+    };
+    image.addEventListener("error", showPlaceholder, { once: true });
+    if (image.complete && image.naturalWidth === 0) showPlaceholder();
   });
 }
 
@@ -203,6 +229,7 @@ function initActivities() {
   setupCraftNavigation();
   renderWorkshops();
   setupWorkshopBooking();
+  setupImageFallbacks();
 }
 
 if (document.readyState === "loading") {
