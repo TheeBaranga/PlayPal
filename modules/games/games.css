@@ -1,0 +1,77 @@
+/* PlayPal - Games module. Everything is scoped under .games-module and every class starts with gm-
+   so it cannot clash with css/theme.css or css/components.css.
+   To match the site theme, change the --gm-* variables at the top. */
+  .games-module{
+    --gm-bg:#fff7e6; --gm-card:#ffffff; --gm-ink:#2b2250; --gm-muted:#5b5478;
+    --gm-pink:#ff5d8f; --gm-blue:#2f80ed; --gm-green:#1fa971; --gm-yellow:#ffc928; --gm-purple:#7c4dff;
+    --gm-line:#2b2250; --gm-radius:18px; --gm-shadow:0 6px 0 rgba(43,34,80,.15);
+  
+    font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;font-size:18px;line-height:1.45;color:var(--gm-ink);}
+  .games-module, .games-module *{box-sizing:border-box}
+
+  /* Menu selection */
+  .gm-menu{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 18px}
+  .games-module .gm-menu button{font:inherit;font-weight:700;padding:14px 22px;min-height:52px;border-radius:999px;
+    border:3px solid var(--gm-line);background:#fff;color:var(--gm-ink);cursor:pointer;box-shadow:var(--gm-shadow)}
+  .games-module .gm-menu button[aria-selected="true"]{background:var(--gm-purple);color:#fff}
+
+  .games-module button,.games-module input,.games-module select{font:inherit}
+  .games-module button:focus-visible,.games-module input:focus-visible,.games-module select:focus-visible{outline:4px solid var(--gm-blue);outline-offset:2px}
+
+  .games-module section.gm-game{background:var(--gm-card);border:3px solid var(--gm-line);border-radius:var(--gm-radius);
+    padding:20px;box-shadow:var(--gm-shadow)}
+  .games-module section.gm-game[hidden]{display:none}
+  .games-module h2{margin:0 0 4px}
+  .gm-style-tag{display:inline-block;background:var(--gm-yellow);border:2px solid var(--gm-line);border-radius:999px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:10px}
+  .gm-how{background:#f1ecff;border-radius:12px;padding:10px 14px;margin:10px 0 16px;font-size:.92rem}
+  .games-module .gm-how summary{cursor:pointer;font-weight:700}
+  .games-module .gm-how ul{margin:8px 0 0;padding-left:20px}
+
+  .gm-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .games-module .gm-controls label{font-weight:700}
+  .games-module select{padding:10px 12px;min-height:46px;border:3px solid var(--gm-line);border-radius:12px;background:#fff;color:var(--gm-ink)}
+  .gm-btn{padding:10px 18px;min-height:46px;border:3px solid var(--gm-line);border-radius:12px;font-weight:700;
+    background:var(--gm-yellow);color:var(--gm-ink);cursor:pointer;box-shadow:0 4px 0 rgba(43,34,80,.2)}
+  .gm-btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(43,34,80,.2)}
+  .gm-btn.gm-alt{background:#fff}
+  .gm-btn:disabled{opacity:.45;cursor:not-allowed}
+
+  .gm-status{font-weight:700;min-height:1.6em;margin:6px 0 12px}
+  .gm-status.gm-good{color:var(--gm-green)} .gm-status.gm-bad{color:#c62850}
+
+  /* Tic tac toe */
+  .gm-ttt{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:360px;margin:0 auto}
+  .gm-cell{aspect-ratio:1;font-size:clamp(2.4rem,12vw,3.6rem);font-weight:800;border:3px solid var(--gm-line);
+    border-radius:16px;background:#fff;cursor:pointer;color:var(--gm-ink);min-height:84px}
+  .gm-cell:hover:not(:disabled){background:#eef5ff}
+  .gm-cell.gm-x{color:var(--gm-blue)} .gm-cell.gm-o{color:var(--gm-pink)}
+  .gm-cell.gm-win{background:#d6f7e6;border-color:var(--gm-green)}
+  .gm-cell:disabled{cursor:default}
+
+  /* Memory */
+  .gm-mem{display:grid;gap:10px;max-width:480px;margin:0 auto}
+  .gm-card{aspect-ratio:1;border:3px solid var(--gm-line);border-radius:16px;background:var(--gm-purple);color:#fff;
+    font-size:clamp(1.8rem,9vw,2.6rem);cursor:pointer;min-height:72px;transition:transform .15s}
+  .gm-card:hover:not(:disabled){transform:scale(1.04)}
+  .gm-card.gm-open{background:#fff;color:var(--gm-ink)}
+  .gm-card.gm-done{background:#d6f7e6;border-color:var(--gm-green)}
+  .gm-stats{display:flex;gap:18px;justify-content:center;font-weight:700;margin-top:12px}
+
+  /* Word scramble */
+  .gm-scr-word{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+  .gm-tile{width:52px;height:60px;display:grid;place-items:center;font-size:1.8rem;font-weight:800;
+    background:var(--gm-yellow);border:3px solid var(--gm-line);border-radius:12px;box-shadow:0 4px 0 rgba(43,34,80,.2)}
+  .gm-progress{height:14px;background:#eee;border:2px solid var(--gm-line);border-radius:999px;overflow:hidden;margin:8px 0}
+  .gm-progress div{height:100%;background:var(--gm-green);width:0;transition:width .25s}
+  .games-module form.gm-answer{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:12px 0}
+  .games-module form.gm-answer input{padding:10px 14px;min-height:50px;border:3px solid var(--gm-line);border-radius:12px;
+    font-size:1.2rem;text-transform:uppercase;letter-spacing:2px;width:min(260px,100%)}
+  .gm-hint{text-align:center;color:var(--gm-muted)}
+  .gm-center{text-align:center}
+
+  @media (prefers-reduced-motion:reduce){.games-module *{transition:none!important}}
+
+  .games-module .gm-intro{text-align:center;padding:6px 0 4px}
+  .games-module .gm-intro h1{margin:0;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.5px}
+  .games-module .gm-intro p{margin:6px auto 0;max-width:640px;color:var(--gm-muted)}
