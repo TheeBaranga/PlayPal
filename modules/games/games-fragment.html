@@ -1,0 +1,101 @@
+<!-- Paste this block where the Games page content goes -->
+<div class="games-module" id="games-root">
+  <div class="gm-intro">
+    <h1>🎮 Play Corner</h1>
+    <p>Pick a game from the menu. Everything works with a mouse, a finger or just your keyboard.</p>
+  </div>
+  <!-- STYLE: Menu selection -->
+  <nav class="gm-menu" role="tablist" aria-label="Choose a game">
+    <button role="tab" id="tab-ttt" aria-selected="true" aria-controls="game-ttt">⭕ Tic-Tac-Toe</button>
+    <button role="tab" id="tab-mem" aria-selected="false" aria-controls="game-mem">🧸 Memory Match</button>
+    <button role="tab" id="tab-scr" aria-selected="false" aria-controls="game-scr">🔤 Word Scramble</button>
+  </nav>
+
+  <!-- ============ TIC TAC TOE ============ -->
+  <section class="gm-game" id="game-ttt" role="tabpanel" aria-labelledby="tab-ttt">
+    <h2>Tic-Tac-Toe</h2>
+    <span class="gm-style-tag">Direct Manipulation + Menu Selection</span>
+    <details class="gm-how"><summary>Interaction design notes</summary>
+      <ul>
+        <li><b>Direct manipulation:</b> tap a square and your mark appears instantly, with no typing or commands.</li>
+        <li><b>Menu selection:</b> mode and difficulty are chosen from a short list, so players recognise options instead of recalling them.</li>
+        <li><b>Error recovery:</b> an Undo button lets players take back a move.</li>
+        <li><b>Accessibility:</b> large touch targets, keyboard play (Tab + Enter), colour plus symbol (X / O), and a live status message for screen readers.</li>
+      </ul>
+    </details>
+    <div class="gm-controls">
+      <label for="ttt-mode">Play</label>
+      <select id="ttt-mode">
+        <option value="cpu">vs Computer</option>
+        <option value="friend">vs a Friend</option>
+      </select>
+      <label for="ttt-level">Level</label>
+      <select id="ttt-level">
+        <option value="easy">Easy</option>
+        <option value="hard">Hard</option>
+      </select>
+      <button class="gm-btn" id="ttt-undo">↩ Undo</button>
+      <button class="gm-btn gm-alt" id="ttt-reset">New game</button>
+    </div>
+    <div class="gm-status" id="ttt-status" role="status" aria-live="polite"></div>
+    <div class="gm-ttt" id="ttt-board"></div>
+  </section>
+
+  <!-- ============ MEMORY MATCH ============ -->
+  <section class="gm-game" id="game-mem" role="tabpanel" aria-labelledby="tab-mem" hidden>
+    <h2>Memory Match</h2>
+    <span class="gm-style-tag">Direct Manipulation + Touch</span>
+    <details class="gm-how"><summary>Interaction design notes</summary>
+      <ul>
+        <li><b>Direct manipulation / touch:</b> cards are flipped by tapping them, with immediate visual feedback.</li>
+        <li><b>Visible state:</b> open, matched and hidden cards look different, and the move counter updates live.</li>
+        <li><b>Error prevention:</b> cards lock while a pair is being checked, so accidental extra taps are ignored.</li>
+        <li><b>Accessibility:</b> every card is a real button with a spoken label; matched cards are announced, not just coloured green.</li>
+      </ul>
+    </details>
+    <div class="gm-controls">
+      <label for="mem-size">Size</label>
+      <select id="mem-size">
+        <option value="6">Easy (12 cards)</option>
+        <option value="8">Medium (16 cards)</option>
+        <option value="10">Hard (20 cards)</option>
+      </select>
+      <button class="gm-btn gm-alt" id="mem-reset">New game</button>
+    </div>
+    <div class="gm-status" id="mem-status" role="status" aria-live="polite"></div>
+    <div class="gm-mem" id="mem-board"></div>
+    <div class="gm-stats"><span>Moves: <span id="mem-moves">0</span></span><span>Pairs: <span id="mem-pairs">0</span></span></div>
+  </section>
+
+  <!-- ============ WORD SCRAMBLE ============ -->
+  <section class="gm-game" id="game-scr" role="tabpanel" aria-labelledby="tab-scr" hidden>
+    <h2>Word Scramble</h2>
+    <span class="gm-style-tag">Question-and-Answer Dialogue + Form Filling</span>
+    <details class="gm-how"><summary>Interaction design notes</summary>
+      <ul>
+        <li><b>Question-and-answer dialogue:</b> the game asks one question at a time and responds to each answer, with a progress bar showing how far you are.</li>
+        <li><b>Form filling:</b> a labelled input with validation next to the field. Wrong answers keep what you typed so you can fix it.</li>
+        <li><b>Plain-language feedback:</b> messages like "Close! Try again" instead of error codes.</li>
+        <li><b>Recovery and control:</b> Hint and Skip buttons let players get unstuck without being punished.</li>
+      </ul>
+    </details>
+    <div class="gm-status gm-center" id="scr-progress-text" aria-live="polite"></div>
+    <div class="gm-progress" aria-hidden="true"><div id="scr-bar"></div></div>
+    <div id="scr-play">
+      <div class="gm-scr-word" id="scr-tiles" aria-label="Scrambled letters"></div>
+      <p class="gm-hint" id="scr-clue"></p>
+      <form class="gm-answer" id="scr-form" autocomplete="off">
+        <label for="scr-input" class="gm-sr" style="position:absolute;left:-9999px">Your answer</label>
+        <input id="scr-input" type="text" placeholder="Type the word" maxlength="20" aria-describedby="scr-status">
+        <button class="gm-btn" type="submit">Check ✔</button>
+      </form>
+      <div class="gm-controls" style="justify-content:center">
+        <button class="gm-btn gm-alt" id="scr-hint" type="button">💡 Hint (−5 pts)</button>
+        <button class="gm-btn gm-alt" id="scr-skip" type="button">⏭ Skip</button>
+      </div>
+    </div>
+    <div class="gm-status gm-center" id="scr-status" role="status" aria-live="polite"></div>
+    <div class="gm-center"><button class="gm-btn" id="scr-reset">New game</button></div>
+    <p class="gm-center"><b>Score: <span id="scr-score">0</span></b></p>
+  </section>
+</div>
