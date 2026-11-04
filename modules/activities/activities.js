@@ -15,7 +15,16 @@ function renderColouringSheets() {
 
   grid.innerHTML = getColouringSheets().map(sheet => `
     <article class="activities-colouring-card">
-      <div class="activities-image-placeholder" aria-hidden="true"></div>
+            
+        ${sheet.image
+        ? `<img
+            src="./${sheet.image}"
+            alt="${sheet.title} colouring sheet"
+            loading="lazy"
+            >`
+        : `<div class="activities-image-placeholder" aria-hidden="true"></div>`
+        }
+
 
       <div class="activities-card-body">
         <h3>${sheet.title}</h3>
@@ -123,7 +132,15 @@ function renderWorkshops() {
 
   grid.innerHTML = getWorkshops().map(workshop => `
     <article class="activities-workshop-card">
-      <div class="activities-image-placeholder" aria-hidden="true"></div>
+           
+        ${workshop.image
+        ? `<img
+            src="./${workshop.image}"
+            alt="${workshop.title} workshop"
+            loading="lazy"
+            >`
+        : `<div class="activities-image-placeholder" aria-hidden="true"></div>`
+        }
 
       <div class="activities-card-body">
         <h3>${workshop.title}</h3>

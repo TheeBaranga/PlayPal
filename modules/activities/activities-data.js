@@ -4,28 +4,28 @@ export const colouringSheets = [
     id: "space-explorer",
     title: "Space Explorer",
     description: "Free · PDF · A4 paper",
-    image: "assets/images/activities/colouring/space-explorer.png",
+    image: "assets/images/activities/colouring/colouring-explorer.png",
     download: "assets/downloads/colouring/space-explorer.pdf"
   },
   {
     id: "lab-day",
     title: "Lab Day",
     description: "Free · PDF · A4 paper",
-    image: "assets/images/activities/colouring/lab-day.png",
+    image: "assets/images/activities/colouring/colouring-lab.png",
     download: "assets/downloads/colouring/lab-day.pdf"
   },
   {
     id: "castle-time",
     title: "Castle Time",
     description: "Free · PDF · A4 paper",
-    image: "assets/images/activities/colouring/castle-time.png",
+    image: "assets/images/activities/colouring/colouring-castle.png",
     download: "assets/downloads/colouring/castle-time.pdf"
   },
   {
     id: "paint-party",
     title: "Paint Party",
     description: "Free · PDF · A4 paper",
-    image: "assets/images/activities/colouring/paint-party.png",
+    image: "assets/images/activities/colouring/colouring-mandala.png",
     download: "assets/downloads/colouring/paint-party.pdf"
   }
 ];
@@ -83,7 +83,8 @@ export const workshops = [
     ageRange: "8–12",
     availableSpots: 3,
     price: 2000,
-    currency: "KES"
+    currency: "KES",
+    image: "assets/images/activities/workshops/workshop-robots.png"
   },
   {
     id: "comic-book-makers",
@@ -93,6 +94,7 @@ export const workshops = [
     ageRange: "8–12",
     availableSpots: 12,
     price: 1200,
-    currency: "KES"
+    currency: "KES",
+    image: "assets/images/activities/workshops/workshop-comics.png"
   }
 ];
