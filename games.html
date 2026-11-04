@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Play Corner – Games</title>
+<style>
+  :root{
+    --bg:#fff7e6; --card:#ffffff; --ink:#2b2250; --muted:#5b5478;
+    --pink:#ff5d8f; --blue:#2f80ed; --green:#1fa971; --yellow:#ffc928; --purple:#7c4dff;
+    --line:#2b2250; --radius:18px; --shadow:0 6px 0 rgba(43,34,80,.15);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;font-size:18px;line-height:1.45}
+  header{padding:22px 16px 6px;text-align:center}
+  header h1{margin:0;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.5px}
+  header p{margin:6px auto 0;max-width:640px;color:var(--muted)}
+  main{max-width:860px;margin:0 auto;padding:12px 16px 40px}
+
+  /* Menu selection */
+  .menu{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 18px}
+  .menu button{font:inherit;font-weight:700;padding:14px 22px;min-height:52px;border-radius:999px;
+    border:3px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;box-shadow:var(--shadow)}
+  .menu button[aria-selected="true"]{background:var(--purple);color:#fff}
+
+  button,input,select{font:inherit}
+  button:focus-visible,input:focus-visible,select:focus-visible{outline:4px solid var(--blue);outline-offset:2px}
+
+  section.game{background:var(--card);border:3px solid var(--line);border-radius:var(--radius);
+    padding:20px;box-shadow:var(--shadow)}
+  section.game[hidden]{display:none}
+  h2{margin:0 0 4px}
+  .style-tag{display:inline-block;background:var(--yellow);border:2px solid var(--line);border-radius:999px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:10px}
+  .how{background:#f1ecff;border-radius:12px;padding:10px 14px;margin:10px 0 16px;font-size:.92rem}
+  .how summary{cursor:pointer;font-weight:700}
+  .how ul{margin:8px 0 0;padding-left:20px}
+
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .controls label{font-weight:700}
+  select{padding:10px 12px;min-height:46px;border:3px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+  .btn{padding:10px 18px;min-height:46px;border:3px solid var(--line);border-radius:12px;font-weight:700;
+    background:var(--yellow);color:var(--ink);cursor:pointer;box-shadow:0 4px 0 rgba(43,34,80,.2)}
+  .btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(43,34,80,.2)}
+  .btn.alt{background:#fff}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+
+  .status{font-weight:700;min-height:1.6em;margin:6px 0 12px}
+  .status.good{color:var(--green)} .status.bad{color:#c62850}
+
+  /* Tic tac toe */
+  .ttt{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:360px;margin:0 auto}
+  .cell{aspect-ratio:1;font-size:clamp(2.4rem,12vw,3.6rem);font-weight:800;border:3px solid var(--line);
+    border-radius:16px;background:#fff;cursor:pointer;color:var(--ink);min-height:84px}
+  .cell:hover:not(:disabled){background:#eef5ff}
+  .cell.x{color:var(--blue)} .cell.o{color:var(--pink)}
+  .cell.win{background:#d6f7e6;border-color:var(--green)}
+  .cell:disabled{cursor:default}
+
+  /* Memory */
+  .mem{display:grid;gap:10px;max-width:480px;margin:0 auto}
+  .card{aspect-ratio:1;border:3px solid var(--line);border-radius:16px;background:var(--purple);color:#fff;
+    font-size:clamp(1.8rem,9vw,2.6rem);cursor:pointer;min-height:72px;transition:transform .15s}
+  .card:hover:not(:disabled){transform:scale(1.04)}
+  .card.open{background:#fff;color:var(--ink)}
+  .card.done{background:#d6f7e6;border-color:var(--green)}
+  .stats{display:flex;gap:18px;justify-content:center;font-weight:700;margin-top:12px}
+
+  /* Word scramble */
+  .scr-word{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+  .tile{width:52px;height:60px;display:grid;place-items:center;font-size:1.8rem;font-weight:800;
+    background:var(--yellow);border:3px solid var(--line);border-radius:12px;box-shadow:0 4px 0 rgba(43,34,80,.2)}
+  .progress{height:14px;background:#eee;border:2px solid var(--line);border-radius:999px;overflow:hidden;margin:8px 0}
+  .progress div{height:100%;background:var(--green);width:0;transition:width .25s}
+  form.answer{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:12px 0}
+  form.answer input{padding:10px 14px;min-height:50px;border:3px solid var(--line);border-radius:12px;
+    font-size:1.2rem;text-transform:uppercase;letter-spacing:2px;width:min(260px,100%)}
+  .hint{text-align:center;color:var(--muted)}
+  .center{text-align:center}
+
+  footer{text-align:center;color:var(--muted);font-size:.85rem;padding:0 16px 30px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎮 Play Corner</h1>
+  <p>Pick a game from the menu. Everything works with a mouse, a finger or just your keyboard.</p>
+</header>
+
+<main>
+  <!-- STYLE: Menu selection -->
+  <nav class="menu" role="tablist" aria-label="Choose a game">
+    <button role="tab" id="tab-ttt" aria-selected="true" aria-controls="game-ttt">⭕ Tic-Tac-Toe</button>
+    <button role="tab" id="tab-mem" aria-selected="false" aria-controls="game-mem">🧸 Memory Match</button>
+    <button role="tab" id="tab-scr" aria-selected="false" aria-controls="game-scr">🔤 Word Scramble</button>
+  </nav>
+
+  <!-- ============ TIC TAC TOE ============ -->
+  <section class="game" id="game-ttt" role="tabpanel" aria-labelledby="tab-ttt">
+    <h2>Tic-Tac-Toe</h2>
+    <span class="style-tag">Direct Manipulation + Menu Selection</span>
+    <details class="how"><summary>Interaction design notes</summary>
+      <ul>
+        <li><b>Direct manipulation:</b> tap a square and your mark appears instantly, with no typing or commands.</li>
+        <li><b>Menu selection:</b> mode and difficulty are chosen from a short list, so players recognise options instead of recalling them.</li>
+        <li><b>Error recovery:</b> an Undo button lets players take back a move.</li>
+        <li><b>Accessibility:</b> large touch targets, keyboard play (Tab + Enter), colour plus symbol (X / O), and a live status message for screen readers.</li>
+      </ul>
+    </details>
+    <div class="controls">
+      <label for="ttt-mode">Play</label>
+      <select id="ttt-mode">
+        <option value="cpu">vs Computer</option>
+        <option value="friend">vs a Friend</option>
+      </select>
+      <label for="ttt-level">Level</label>
+      <select id="ttt-level">
+        <option value="easy">Easy</option>
+        <option value="hard">Hard</option>
+      </select>
+      <button class="btn" id="ttt-undo">↩ Undo</button>
+      <button class="btn alt" id="ttt-reset">New game</button>
+    </div>
+    <div class="status" id="ttt-status" role="status" aria-live="polite"></div>
+    <div class="ttt" id="ttt-board"></div>
+  </section>
+
+  <!-- ============ MEMORY MATCH ============ -->
+  <section class="game" id="game-mem" role="tabpanel" aria-labelledby="tab-mem" hidden>
+    <h2>Memory Match</h2>
+    <span class="style-tag">Direct Manipulation + Touch</span>
+    <details class="how"><summary>Interaction design notes</summary>
+      <ul>
+        <li><b>Direct manipulation / touch:</b> cards are flipped by tapping them, with immediate visual feedback.</li>
+        <li><b>Visible state:</b> open, matched and hidden cards look different, and the move counter updates live.</li>
+        <li><b>Error prevention:</b> cards lock while a pair is being checked, so accidental extra taps are ignored.</li>
+        <li><b>Accessibility:</b> every card is a real button with a spoken label; matched cards are announced, not just coloured green.</li>
+      </ul>
+    </details>
+    <div class="controls">
+      <label for="mem-size">Size</label>
+      <select id="mem-size">
+        <option value="6">Easy (12 cards)</option>
+        <option value="8">Medium (16 cards)</option>
+        <option value="10">Hard (20 cards)</option>
+      </select>
+      <button class="btn alt" id="mem-reset">New game</button>
+    </div>
+    <div class="status" id="mem-status" role="status" aria-live="polite"></div>
+    <div class="mem" id="mem-board"></div>
+    <div class="stats"><span>Moves: <span id="mem-moves">0</span></span><span>Pairs: <span id="mem-pairs">0</span></span></div>
+  </section>
+
+  <!-- ============ WORD SCRAMBLE ============ -->
+  <section class="game" id="game-scr" role="tabpanel" aria-labelledby="tab-scr" hidden>
+    <h2>Word Scramble</h2>
+    <span class="style-tag">Question-and-Answer Dialogue + Form Filling</span>
+    <details class="how"><summary>Interaction design notes</summary>
+      <ul>
+        <li><b>Question-and-answer dialogue:</b> the game asks one question at a time and responds to each answer, with a progress bar showing how far you are.</li>
+        <li><b>Form filling:</b> a labelled input with validation next to the field. Wrong answers keep what you typed so you can fix it.</li>
+        <li><b>Plain-language feedback:</b> messages like "Close! Try again" instead of error codes.</li>
+        <li><b>Recovery and control:</b> Hint and Skip buttons let players get unstuck without being punished.</li>
+      </ul>
+    </details>
+    <div class="status center" id="scr-progress-text" aria-live="polite"></div>
+    <div class="progress" aria-hidden="true"><div id="scr-bar"></div></div>
+    <div id="scr-play">
+      <div class="scr-word" id="scr-tiles" aria-label="Scrambled letters"></div>
+      <p class="hint" id="scr-clue"></p>
+      <form class="answer" id="scr-form" autocomplete="off">
+        <label for="scr-input" class="sr" style="position:absolute;left:-9999px">Your answer</label>
+        <input id="scr-input" type="text" placeholder="Type the word" maxlength="20" aria-describedby="scr-status">
+        <button class="btn" type="submit">Check ✔</button>
+      </form>
+      <div class="controls" style="justify-content:center">
+        <button class="btn alt" id="scr-hint" type="button">💡 Hint (−5 pts)</button>
+        <button class="btn alt" id="scr-skip" type="button">⏭ Skip</button>
+      </div>
+    </div>
+    <div class="status center" id="scr-status" role="status" aria-live="polite"></div>
+    <div class="center"><button class="btn" id="scr-reset">New game</button></div>
+    <p class="center"><b>Score: <span id="scr-score">0</span></b></p>
+  </section>
+</main>
+<footer>Part of our Interaction Design Styles project: SFE4010A, Group 6</footer>
+
+<script>
+(function(){
+  "use strict";
+  const $ = s => document.querySelector(s);
+
+  /* ---------- Menu (tabs) ---------- */
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  function showTab(t){
+    tabs.forEach(b=>{
+      const on = b===t;
+      b.setAttribute('aria-selected', on);
+      $('#'+b.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach((t,i)=>{
+    t.addEventListener('click',()=>showTab(t));
+    t.addEventListener('keydown',e=>{
+      if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
+        const n = tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];
+        n.focus(); showTab(n);
+      }
+    });
+  });
+
+  /* ---------- Tic-Tac-Toe ---------- */
+  const LINES=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  const tBoard=$('#ttt-board'), tStatus=$('#ttt-status');
+  let board, turn, over, history, busy=false, cpuTimer=null;
+  const cells=[];
+  for(let i=0;i<9;i++){
+    const b=document.createElement('button');
+    b.className='cell'; b.addEventListener('click',()=>play(i));
+    tBoard.appendChild(b); cells.push(b);
+  }
+  function winnerOf(b){
+    for(const l of LINES){ if(b[l[0]]&&b[l[0]]===b[l[1]]&&b[l[0]]===b[l[2]]) return {w:b[l[0]],line:l}; }
+    return b.every(Boolean)?{w:'draw'}:null;
+  }
+  function cellLabel(i){
+    const r=Math.floor(i/3)+1,c=i%3+1;
+    return `Row ${r}, column ${c}, ${board[i]?board[i]:'empty'}`;
+  }
+  function render(){
+    const res=winnerOf(board);
+    cells.forEach((b,i)=>{
+      b.textContent=board[i]||'';
+      b.className='cell'+(board[i]?' '+board[i].toLowerCase():'');
+      b.disabled=over||!!board[i]||busy;
+      b.setAttribute('aria-label',cellLabel(i));
+      if(res&&res.line&&res.line.includes(i)) b.classList.add('win');
+    });
+    $('#ttt-undo').disabled=history.length===0||busy;
+  }
+  function setStatus(msg,cls){ tStatus.textContent=msg; tStatus.className='status '+(cls||''); }
+  function tReset(){
+    clearTimeout(cpuTimer); busy=false;
+    board=Array(9).fill(null); turn='X'; over=false; history=[];
+    const cpu=$('#ttt-mode').value==='cpu';
+    $('#ttt-level').disabled=!cpu;
+    setStatus(cpu?'Your turn! You are X.':"X goes first.");
+    render();
+  }
+  function finish(){
+    const res=winnerOf(board); if(!res) return false;
+    over=true;
+    const cpu=$('#ttt-mode').value==='cpu';
+    if(res.w==='draw') setStatus("It's a draw! 🤝",'');
+    else if(cpu) setStatus(res.w==='X'?'You win! 🎉':'The computer wins. Try again!',res.w==='X'?'good':'bad');
+    else setStatus(`${res.w} wins! 🎉`,'good');
+    render(); return true;
+  }
+  function play(i){
+    if(over||board[i]||busy) return;
+    board[i]=turn; history.push(i);
+    if(finish()) return;
+    turn = turn==='X'?'O':'X';
+    const cpu=$('#ttt-mode').value==='cpu';
+    if(cpu&&turn==='O'){
+      busy=true; setStatus('Computer is thinking…'); render();
+      cpuTimer=setTimeout(()=>{
+        busy=false;
+        const m=cpuPick(); board[m]='O'; history.push(m);
+        if(finish()) return;
+        turn='X'; setStatus('Your turn!'); render();
+      },450);
+    } else { setStatus(cpu?'Your turn!':`${turn}'s turn.`); render(); }
+  }
+  function minimax(b,isO){
+    const r=winnerOf(b);
+    if(r){ return r.w==='O'?1:r.w==='X'?-1:0; }
+    let best=isO?-2:2;
+    for(let i=0;i<9;i++) if(!b[i]){
+      b[i]=isO?'O':'X'; const s=minimax(b,!isO); b[i]=null;
+      best=isO?Math.max(best,s):Math.min(best,s);
+    }
+    return best;
+  }
+  function cpuPick(){
+    const empty=board.map((v,i)=>v?null:i).filter(v=>v!==null);
+    if($('#ttt-level').value==='easy'){
+      // easy: win or block sometimes, otherwise random
+      if(Math.random()<.35){
+        for(const p of ['O','X']) for(const i of empty){
+          board[i]=p; const r=winnerOf(board); board[i]=null;
+          if(r&&r.w===p) return i;
+        }
+      }
+      return empty[Math.floor(Math.random()*empty.length)];
+    }
+    let bestScore=-2,moves=[];
+    for(const i of empty){
+      board[i]='O'; const s=minimax(board,false); board[i]=null;
+      if(s>bestScore){bestScore=s;moves=[i];} else if(s===bestScore) moves.push(i);
+    }
+    return moves[Math.floor(Math.random()*moves.length)];
+  }
+  $('#ttt-undo').addEventListener('click',()=>{
+    if(busy||!history.length) return;
+    const cpu=$('#ttt-mode').value==='cpu';
+    const n = cpu ? (history.length%2===0?2:1) : 1;
+    for(let k=0;k<n&&history.length;k++) board[history.pop()]=null;
+    over=false; turn = history.length%2===0?'X':'O';
+    setStatus('Move taken back. '+(cpu?'Your turn!':`${turn}'s turn.`)); render();
+  });
+  $('#ttt-reset').addEventListener('click',tReset);
+  $('#ttt-mode').addEventListener('change',tReset);
+  $('#ttt-level').addEventListener('change',tReset);
+  tReset();
+
+  /* ---------- Memory Match ---------- */
+  const EMOJI=['🧸','🚗','🪁','🎨','🧩','🚀','🪀','🎲','🦖','🎈'];
+  const mBoard=$('#mem-board'), mStatus=$('#mem-status');
+  let mFirst=null, mLock=false, mMoves=0, mPairs=0, mTotal=0;
+  function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+  function mReset(){
+    const pairs=+$('#mem-size').value; mTotal=pairs;
+    mFirst=null; mLock=false; mMoves=0; mPairs=0;
+    $('#mem-moves').textContent=0; $('#mem-pairs').textContent='0 / '+pairs;
+    mStatus.textContent='Tap a card to flip it. Find all the pairs!'; mStatus.className='status';
+    const cols = pairs===6?4:pairs===8?4:5;
+    mBoard.style.gridTemplateColumns=`repeat(${cols},1fr)`;
+    mBoard.innerHTML='';
+    shuffle([...EMOJI.slice(0,pairs),...EMOJI.slice(0,pairs)]).forEach((e,i)=>{
+      const b=document.createElement('button');
+      b.className='card'; b.dataset.e=e; b.textContent='?';
+      b.setAttribute('aria-label',`Card ${i+1}, face down`);
+      b.addEventListener('click',()=>flip(b,i));
+      mBoard.appendChild(b);
+    });
+  }
+  function show(b,i){ b.classList.add('open'); b.textContent=b.dataset.e; b.setAttribute('aria-label',`Card ${i+1}, ${b.dataset.e}`); }
+  function hide(b,i){ b.classList.remove('open'); b.textContent='?'; b.setAttribute('aria-label',`Card ${i+1}, face down`); }
+  function flip(b,i){
+    if(mLock||b.classList.contains('open')||b.classList.contains('done')) return;
+    show(b,i);
+    if(!mFirst){ mFirst={b,i}; return; }
+    mMoves++; $('#mem-moves').textContent=mMoves;
+    const a=mFirst; mFirst=null; mLock=true;
+    if(a.b.dataset.e===b.dataset.e){
+      [a.b,b].forEach(x=>{x.classList.add('done'); x.disabled=true; x.setAttribute('aria-label',x.dataset.e+', matched');});
+      mPairs++; $('#mem-pairs').textContent=mPairs+' / '+mTotal; mLock=false;
+      if(mPairs===mTotal){ mStatus.textContent=`You found them all in ${mMoves} moves! 🎉`; mStatus.className='status good'; }
+      else { mStatus.textContent='Match! ✅'; mStatus.className='status good'; }
+    } else {
+      mStatus.textContent='Not a match. Try again!'; mStatus.className='status bad';
+      setTimeout(()=>{ hide(a.b,a.i); hide(b,i); mLock=false; },800);
+    }
+  }
+  $('#mem-reset').addEventListener('click',mReset);
+  $('#mem-size').addEventListener('change',mReset);
+  mReset();
+
+  /* ---------- Word Scramble ---------- */
+  const WORDS=[
+    ['TEDDY','A soft, cuddly bear you hug at bedtime'],
+    ['PUZZLE','Fit the pieces together to see the picture'],
+    ['ROBOT','A machine that beeps and moves like a person'],
+    ['CRAYON','A waxy stick for colouring'],
+    ['BALLOON','Floats up when filled with helium'],
+    ['MARBLES','Little glass balls you roll and flick'],
+    ['SCOOTER','Two wheels, a handle, and you push with one foot'],
+    ['BLOCKS','Stack them up to build a tower'],
+    ['KITE','Flies high on a string when it is windy'],
+    ['DRUM','Bang bang! You hit it with sticks'],
+    ['DOLL','A toy friend you can dress up'],
+    ['PAINT','Brush it on paper to make colourful art']
+  ];
+  const ROUNDS=8;
+  let sQ, sIdx, sScore, sHint, sDone;
+  const sIn=$('#scr-input'), sStat=$('#scr-status');
+  function scramble(w){
+    let s; do{ s=shuffle(w.split('')).join(''); }while(s===w);
+    return s;
+  }
+  function sNew(){
+    sQ=shuffle([...WORDS]).slice(0,ROUNDS); sIdx=0; sScore=0; sDone=false;
+    $('#scr-play').hidden=false; sNext(true);
+  }
+  function sNext(first){
+    if(!first) sIdx++;
+    $('#scr-score').textContent=sScore;
+    $('#scr-bar').style.width=(sIdx/ROUNDS*100)+'%';
+    if(sIdx>=ROUNDS){
+      $('#scr-play').hidden=true; sDone=true;
+      $('#scr-progress-text').textContent='All done!';
+      sStat.textContent=`Final score: ${sScore} out of ${ROUNDS*10}. ${sScore>=ROUNDS*8?'Word wizard! 🧙':sScore>=ROUNDS*5?'Great job! 🌟':'Good try. Play again!'}`;
+      sStat.className='status center good'; return;
+    }
+    const [w,clue]=sQ[sIdx]; sHint=0;
+    $('#scr-progress-text').textContent=`Question ${sIdx+1} of ${ROUNDS}`;
+    const tiles=$('#scr-tiles'); tiles.innerHTML='';
+    scramble(w).split('').forEach(ch=>{ const d=document.createElement('div'); d.className='tile'; d.textContent=ch; tiles.appendChild(d); });
+    tiles.setAttribute('aria-label','Scrambled letters: '+[...tiles.children].map(t=>t.textContent).join(', '));
+    $('#scr-clue').textContent='Clue: '+clue;
+    sIn.value=''; sIn.focus();
+    if(!first){ /* keep last feedback visible */ } else { sStat.textContent=''; sStat.className='status center'; }
+    $('#scr-hint').disabled=false;
+  }
+  $('#scr-form').addEventListener('submit',e=>{
+    e.preventDefault(); if(sDone) return;
+    const guess=sIn.value.trim().toUpperCase(), ans=sQ[sIdx][0];
+    if(!guess){ sStat.textContent='Type your answer in the box first.'; sStat.className='status center bad'; sIn.focus(); return; }
+    if(!/^[A-Z]+$/.test(guess)){ sStat.textContent='Letters only, please (A to Z).'; sStat.className='status center bad'; sIn.focus(); return; }
+    if(guess===ans){
+      sScore+=Math.max(10-sHint*5,5);
+      sStat.textContent='Correct! 🎉'; sStat.className='status center good'; sNext();
+    } else {
+      const close=guess.length===ans.length;
+      sStat.textContent=close?'Close! Check the letters and try again.':`Hmm, the word has ${ans.length} letters. Try again!`;
+      sStat.className='status center bad'; sIn.select(); /* keep what they typed */
+    }
+  });
+  $('#scr-hint').addEventListener('click',()=>{
+    if(sDone) return; sHint=1;
+    const w=sQ[sIdx][0];
+    sStat.textContent=`Hint: it starts with "${w[0]}" and has ${w.length} letters.`; sStat.className='status center';
+    $('#scr-hint').disabled=true; sIn.focus();
+  });
+  $('#scr-skip').addEventListener('click',()=>{
+    if(sDone) return;
+    sStat.textContent=`Skipped. The word was ${sQ[sIdx][0]}.`; sStat.className='status center'; sNext();
+  });
+  $('#scr-reset').addEventListener('click',sNew);
+  sNew();
+})();
+</script>
+</body>
+</html>
