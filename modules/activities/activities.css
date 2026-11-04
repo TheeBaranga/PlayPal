@@ -1,0 +1,536 @@
+
+body {
+  margin: 0;
+}
+
+
+/* PLAYPAL — ACTIVITIES */
+
+.activities-container {
+  width: min(100% - 48px, 1312px);
+  margin-inline: auto;
+}
+
+.activities-hero,
+.activities-section {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: #1f2a4d;
+}
+
+/* PAGE HEADER */
+
+.activities-hero {
+  background: #d8f6ee;
+  padding: 40px 0;
+}
+
+.activities-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.activities-breadcrumb a {
+  color: #1f4fd8;
+  text-decoration: none;
+}
+
+.activities-hero h1 {
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.2;
+  margin: 0 0 16px;
+}
+
+.activities-hero p {
+  font-size: 20px;
+  line-height: 1.5;
+  margin: 0 0 24px;
+  color: #4a5578;
+}
+
+.activities-jump {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.activities-jump > span {
+  color: #4a5578;
+}
+
+.activities-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 8px 16px;
+  border: 2px solid #1fc8a0;
+  border-radius: 999px;
+  color: #1f2a4d;
+  background: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.activities-chip:hover,
+.activities-chip:focus-visible {
+  background: #1fc8a0;
+  color: white;
+}
+
+/* SHARED SECTION STYLES */
+
+.activities-section {
+  padding: 40px 0;
+  scroll-margin-top: 24px;
+}
+
+.activities-section-heading {
+  margin-bottom: 24px;
+}
+
+.activities-section-heading h2 {
+  margin: 0 0 8px;
+  font-size: clamp(26px, 3vw, 32px);
+  line-height: 1.25;
+}
+
+.activities-section-heading p {
+  margin: 0;
+  color: #4a5578;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* COLOURING CORNER */
+
+.activities-colouring-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.activities-colouring-card {
+  overflow: hidden;
+  background: white;
+  border: 1.5px solid #eadfc8;
+  border-radius: 16px;
+}
+
+.activities-colouring-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background: #f7f8fa;
+}
+
+.activities-card-body {
+  padding: 20px;
+}
+
+.activities-card-body h3 {
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+
+.activities-card-body p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: #4a5578;
+}
+
+/* BUTTONS */
+
+.activities-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 48px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.activities-button-primary {
+  background: #1fc8a0;
+  color: #102c26;
+}
+
+.activities-button-primary:hover {
+  background: #17b08c;
+  transform: translateY(-2px);
+}
+
+.activities-button-secondary {
+  background: white;
+  color: #1f2a4d;
+  border-color: #1fc8a0;
+}
+
+.activities-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.activities-button:focus-visible,
+.activities-chip:focus-visible {
+  outline: 3px solid #1f4fd8;
+  outline-offset: 3px;
+}
+
+/* DIY CRAFTS */
+
+
+/* DIY CRAFTS — FIGMA LAYOUT */
+
+.activities-crafts {
+  background: #ffffff;
+}
+
+.activities-craft-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 40px;
+  border: 1px solid #a4e8d8;
+  border-radius: 20px;
+  background: #d8f6ee;
+}
+
+/* Craft heading */
+
+.activities-craft-info h3 {
+  font-size: clamp(26px, 3vw, 36px);
+  line-height: 1.2;
+  margin: 0 0 12px;
+}
+
+.activities-craft-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.activities-craft-meta span {
+  background: white;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+/* Materials displayed as chips */
+
+.activities-materials-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.activities-materials-row h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5578;
+}
+
+.activities-materials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.activities-materials li {
+  border: 1px solid #1fc8a0;
+  background: transparent;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+/* Connected step tracker */
+
+.activities-step-indicators {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  gap: 8px;
+  isolation: isolate;
+}
+
+.activities-step-indicators::before {
+  content: "";
+  position: absolute;
+  top: 17px;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background: #1fc8a0;
+  z-index: -1;
+}
+
+.activities-step-indicator {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  background: transparent;
+  color: #4a5578;
+  text-align: center;
+  font-size: 13px;
+  border-radius: 0;
+}
+
+.activities-step-number {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 2px solid #1fc8a0;
+  border-radius: 50%;
+  background: #d8f6ee;
+  font-weight: 700;
+}
+
+.activities-step-indicator.is-active .activities-step-number,
+.activities-step-indicator.is-complete .activities-step-number {
+  background: #1fc8a0;
+  color: white;
+}
+
+.activities-step-indicator.is-active {
+  background: transparent;
+  color: #087d64;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+/* Instructions panel */
+
+.activities-craft-tutorial {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+  border: 1px solid #9adfcf;
+  border-radius: 14px;
+  background: white;
+}
+
+.activities-step-content {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.activities-step-counter {
+  margin: 0 0 10px;
+  color: #087d64;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.activities-step-content h4 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.activities-step-content > p {
+  line-height: 1.6;
+}
+
+.activities-step-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.activities-craft-image-slot {
+  min-height: 140px;
+  border-radius: 12px;
+  background: #e8f5f1;
+}
+
+/* Responsive */
+
+@media (max-width: 640px) {
+  .activities-craft-panel {
+    padding: 20px;
+    gap: 24px;
+  }
+
+  .activities-step-indicator {
+    font-size: 11px;
+  }
+
+  .activities-step-number {
+    width: 30px;
+    height: 30px;
+  }
+
+  .activities-step-indicators::before {
+    top: 14px;
+  }
+
+  .activities-craft-tutorial {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .activities-craft-image-slot {
+    display: none;
+  }
+}
+
+
+/* CREATIVE WORKSHOPS */
+
+.activities-workshops-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.activities-workshop-card {
+  overflow: hidden;
+  border: 1.5px solid #eadfc8;
+  border-radius: 16px;
+  background: white;
+}
+
+.activities-workshop-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.activities-workshop-card .activities-button {
+  width: 100%;
+}
+
+.activities-workshop-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0;
+  font-size: 14px;
+  color: #4a5578;
+}
+
+.activities-workshop-price {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 16px 0;
+}
+
+.activities-booking-note,
+.activities-feedback {
+  margin-top: 24px;
+  line-height: 1.5;
+  color: #4a5578;
+}
+
+.activities-feedback {
+  font-weight: 600;
+  color: #0b7a62;
+}
+
+/* RESPONSIVE LAYOUT */
+
+@media (max-width: 1000px) {
+  .activities-colouring-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .activities-workshops-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .activities-container {
+    width: min(100% - 32px, 1312px);
+  }
+
+  .activities-hero {
+    padding: 32px 0;
+  }
+
+  .activities-colouring-grid,
+  .activities-workshops-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .activities-craft-panel {
+    padding: 20px;
+  }
+
+  .activities-step-actions {
+    flex-wrap: wrap;
+  }
+
+  .activities-step-actions .activities-button {
+    flex: 1;
+  }
+}
+
+.activities-image-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #e8f5f1;
+  border-bottom: 1px solid #d5e8e2;
+}
+
+.activities-colouring-card .activities-image-placeholder {
+  aspect-ratio: 1 / 1;
+}
+
+.activities-step-image {
+  display: none;
+}
+
+
+@media (max-width: 1000px) {
+  .activities-craft-panel {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .activities-step-content {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .activities-colouring-card .activities-image-placeholder {
+    aspect-ratio: 4 / 3;
+  }
+
+  .activities-step-indicators {
+    gap: 6px;
+  }
+
+  .activities-step-indicator {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}

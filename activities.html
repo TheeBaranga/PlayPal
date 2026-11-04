@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Activities | PlayPal</title>
+  <meta
+    name="description"
+    content="Explore colouring sheets, DIY crafts and creative workshops on PlayPal."
+  >
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="./css/theme.css">
+  <link rel="stylesheet" href="./css/components.css">
+
+  <!-- Activities styles -->
+  <link rel="stylesheet" href="./modules/activities/activities.css">
+</head>
+
+<body>
+
+  <!-- Shared navigation -->
+  <header id="site-header"></header>
+
+  <main id="main-content">
+
+    <!-- PAGE HEADER -->
+    <section class="activities-hero">
+      <div class="activities-container">
+
+        <nav class="activities-breadcrumb" aria-label="Breadcrumb">
+          <a href="./index.html">Home</a>
+          <span aria-hidden="true">›</span>
+          <span aria-current="page">Activities</span>
+        </nav>
+
+        <h1>Activities</h1>
+
+        <p>
+          Print it, craft it, join in!
+          Pick something fun to make today.
+        </p>
+
+        <nav class="activities-jump" aria-label="Activity sections">
+          <span>Jump to:</span>
+
+          <a href="#colouring" class="activities-chip">
+            Colouring Corner
+          </a>
+
+          <a href="#crafts" class="activities-chip">
+            DIY Crafts
+          </a>
+
+          <a href="#workshops" class="activities-chip">
+            Creative Workshops
+          </a>
+        </nav>
+
+      </div>
+    </section>
+
+    <!-- COLOURING CORNER -->
+    <section
+      id="colouring"
+      class="activities-section activities-colouring"
+      aria-labelledby="colouring-heading"
+    >
+      <div class="activities-container">
+
+        <div class="activities-section-heading">
+          <h2 id="colouring-heading">Colouring Corner</h2>
+          <p>
+            Download a sheet, print it and colour it in!
+          </p>
+        </div>
+
+        <!-- Populated by activities.js -->
+        <div
+          id="colouring-grid"
+          class="activities-colouring-grid"
+        ></div>
+
+      </div>
+    </section>
+
+    <!-- DIY CRAFTS -->
+    <section
+      id="crafts"
+      class="activities-section activities-crafts"
+      aria-labelledby="crafts-heading"
+    >
+      <div class="activities-container">
+
+        <div class="activities-section-heading">
+          <h2 id="crafts-heading">DIY Crafts</h2>
+          <p>
+            Easy step-by-step crafts.
+            One step at a time!
+          </p>
+        </div>
+
+        
+        <article class="activities-craft-panel">
+
+        <!-- Craft heading and details -->
+        <div class="activities-craft-info">
+
+            <h3 id="craft-title">Paper Star Lantern</h3>
+
+            <div class="activities-craft-meta">
+            <span id="craft-duration">20 minutes</span>
+            <span id="craft-difficulty">Easy</span>
+            <span id="craft-age">Ages 8+</span>
+            </div>
+
+            <div class="activities-materials-row">
+            <h4>You will need:</h4>
+            <ul id="craft-materials" class="activities-materials"></ul>
+            </div>
+
+        </div>
+
+        <!-- Horizontal progress tracker -->
+        <div
+            id="craft-step-indicators"
+            class="activities-step-indicators"
+            aria-label="Craft progress"
+        ></div>
+
+        <!-- Step instructions -->
+        <div class="activities-craft-tutorial">
+
+            <div class="activities-step-content">
+
+            <p
+                id="craft-step-counter"
+                class="activities-step-counter"
+                aria-live="polite"
+            >
+                Step 1 of 5
+            </p>
+
+            <h4 id="craft-step-title">Pick paper</h4>
+
+            <p id="craft-step-description">
+                Choose a sheet of paper for your lantern.
+            </p>
+
+            <div class="activities-step-actions">
+                <button
+                id="craft-back"
+                class="activities-button activities-button-secondary"
+                type="button"
+                disabled
+                >
+                Back
+                </button>
+
+                <button
+                id="craft-next"
+                class="activities-button activities-button-primary"
+                type="button"
+                >
+                Next step →
+                </button>
+            </div>
+
+            </div>
+
+            <!-- Image slot for future integration -->
+            <div class="activities-craft-image-slot" aria-hidden="true"></div>
+
+        </div>
+
+        </article>
+
+
+      </div>
+    </section>
+
+    <!-- CREATIVE WORKSHOPS -->
+    <section
+      id="workshops"
+      class="activities-section activities-workshops"
+      aria-labelledby="workshops-heading"
+    >
+      <div class="activities-container">
+
+        <div class="activities-section-heading">
+          <h2 id="workshops-heading">Creative Workshops</h2>
+          <p>
+            Join a live workshop and make something amazing.
+          </p>
+        </div>
+
+        <!-- Populated by activities.js -->
+        <div
+          id="workshops-grid"
+          class="activities-workshops-grid"
+        ></div>
+
+        <p class="activities-booking-note">
+          A grown-up will confirm your booking before it is final.
+          This website demonstrates bookings only.
+        </p>
+
+        <p
+          id="activities-feedback"
+          class="activities-feedback"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Shared footer -->
+  <footer id="site-footer"></footer>
+
+  <!-- Shared scripts -->
+  <script type="module" src="./js/main.js"></script>
+
+  <!-- Activities logic -->
+  <script
+    type="module"
+    src="./modules/activities/activities.js"
+  ></script>
+
+</body>
+</html>
