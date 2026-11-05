@@ -24,9 +24,9 @@
   </script>
 
   <!-- Shared styles first, then this screen's styles -->
-  <link rel="stylesheet" href="css/theme.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="modules/home/home.css">
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="home/home.css">
 </head>
 
 <body data-page="home">
@@ -45,14 +45,14 @@
           <h1 class="text-display" id="hero-title">Play, make and discover</h1>
           <p class="text-body-lg home-hero__lead">Toys to build, games to beat and things to make, all in one easy place.</p>
           <div class="home-hero__buttons">
-            <a class="pp-btn pp-tone-home" href="modules/toy-shop/toy-shop.html" data-route="toyShop">
+            <a class="pp-btn pp-tone-home" href="toy-shop/toy-shop.html" data-route="toyShop">
               Shop toys <span class="pp-icon-slot" data-icon="arrow-right" data-size="20"></span>
             </a>
-            <a class="pp-btn pp-btn--ghost" href="modules/games/games.html" data-route="games">Play a game</a>
+            <a class="pp-btn pp-btn--ghost" href="games/games.html" data-route="games">Play a game</a>
           </div>
         </div>
         <div class="home-hero__image">
-          <img src="assets/images/home/hero-banner.png" width="1280" height="1024" fetchpriority="high" decoding="async"
+          <img src="../assets/images/home/hero-banner.png" width="1280" height="1024" fetchpriority="high" decoding="async"
                alt="Colourful building bricks, a paint palette, a science flask and a board game on cream display stands">
         </div>
       </div>
@@ -71,7 +71,7 @@
                aria-valuemin="0" aria-valuemax="5" aria-valuenow="2" style="--progress: 40%" data-continue-progress>
             <span class="pp-progress__fill"></span>
           </div>
-          <a class="pp-btn" href="modules/games/games.html" data-route="games" data-query="game=memory-match">Keep playing</a>
+          <a class="pp-btn" href="games/games.html" data-route="games" data-query="game=memory-match">Keep playing</a>
         </div>
       </div>
     </section>
@@ -88,21 +88,21 @@
         <div class="home-grid home-grid--3">
           <article class="pp-card pp-card--interactive pp-tone-shop">
             <div class="pp-card__media home-media--wide">
-              <img src="assets/images/home/shop-preview.png" width="1024" height="1024" loading="lazy" decoding="async"
+              <img src="../assets/images/home/shop-preview.png" width="1024" height="1024" loading="lazy" decoding="async"
                    alt="Watercolour paint set with brushes and a painted card">
             </div>
             <div class="pp-card__body">
               <span class="pp-tag">Shop</span>
               <h3 class="text-h3">Toy Shop</h3>
               <p class="text-body home-soft">Board games, art kits, building kits and more.</p>
-              <a class="pp-link pp-card__link" href="modules/toy-shop/toy-shop.html" data-route="toyShop">
+              <a class="pp-link pp-card__link" href="toy-shop/toy-shop.html" data-route="toyShop">
                 Visit Toy Shop <span class="pp-icon-slot" data-icon="arrow-right" data-size="20"></span>
               </a>
             </div>
           </article>
           <article class="pp-card pp-card--interactive pp-tone-games">
             <div class="pp-card__media home-media--wide">
-              <img src="assets/images/home/games-preview.png" width="1024" height="1024" loading="lazy" decoding="async"
+              <img src="../assets/images/home/games-preview.png" width="1024" height="1024" loading="lazy" decoding="async"
                    alt="Memory match cards laid out face down, with a few turned over">
             </div>
             <div class="pp-card__body">
@@ -116,14 +116,14 @@
           </article>
           <article class="pp-card pp-card--interactive pp-tone-activities">
             <div class="pp-card__media home-media--wide">
-              <img src="assets/images/home/activities-preview.png" width="1024" height="1024" loading="lazy" decoding="async"
+              <img src="../assets/images/home/activities-preview.png" width="1024" height="1024" loading="lazy" decoding="async"
                    alt="Folded paper animals with a glue stick, scissors and coloured paper">
             </div>
             <div class="pp-card__body">
               <span class="pp-tag">Make</span>
               <h3 class="text-h3">Activities</h3>
               <p class="text-body home-soft">Colouring sheets, easy crafts and workshops.</p>
-              <a class="pp-link pp-card__link" href="modules/activities/activities.html" data-route="activities">
+              <a class="pp-link pp-card__link" href="activities/activities.html" data-route="activities">
                 Start making <span class="pp-icon-slot" data-icon="arrow-right" data-size="20"></span>
               </a>
             </div>
@@ -137,38 +137,38 @@
       <div class="pp-container home-section__inner">
         <div class="pp-section-header pp-tone-shop">
           <h2 class="text-h2" id="category-title">Choose your category</h2>
-          <a class="pp-link" href="modules/toy-shop/toy-shop.html" data-route="toyShop">
+          <a class="pp-link" href="toy-shop/toy-shop.html" data-route="toyShop">
             See all toys <span class="pp-icon-slot" data-icon="arrow-right" data-size="20"></span>
           </a>
         </div>
         <ul class="home-grid home-grid--5">
           <li>
-            <a class="home-tile" href="modules/toy-shop/toy-shop.html" data-route="toyShop" data-query="category=board-games">
-              <img src="assets/images/home/category-board-games.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
+            <a class="home-tile" href="toy-shop/toy-shop.html" data-route="toyShop" data-query="category=board-games">
+              <img src="../assets/images/home/category-board-games.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
               <span class="text-label-button">Board games</span>
             </a>
           </li>
           <li>
-            <a class="home-tile" href="modules/toy-shop/toy-shop.html" data-route="toyShop" data-query="category=art-kits">
-              <img src="assets/images/home/category-art-kits.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
+            <a class="home-tile" href="toy-shop/toy-shop.html" data-route="toyShop" data-query="category=art-kits">
+              <img src="../assets/images/home/category-art-kits.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
               <span class="text-label-button">Art kits</span>
             </a>
           </li>
           <li>
-            <a class="home-tile" href="modules/toy-shop/toy-shop.html" data-route="toyShop" data-query="category=building-kits">
-              <img src="assets/images/home/category-building-kits.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
+            <a class="home-tile" href="toy-shop/toy-shop.html" data-route="toyShop" data-query="category=building-kits">
+              <img src="../assets/images/home/category-building-kits.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
               <span class="text-label-button">Building kits</span>
             </a>
           </li>
           <li>
-            <a class="home-tile" href="modules/toy-shop/toy-shop.html" data-route="toyShop" data-query="category=science-kits">
-              <img src="assets/images/home/category-science-kits.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
+            <a class="home-tile" href="toy-shop/toy-shop.html" data-route="toyShop" data-query="category=science-kits">
+              <img src="../assets/images/home/category-science-kits.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
               <span class="text-label-button">Science kits</span>
             </a>
           </li>
           <li>
-            <a class="home-tile" href="modules/toy-shop/toy-shop.html" data-route="toyShop" data-query="category=creative-stationery">
-              <img src="assets/images/home/category-creative-stationery.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
+            <a class="home-tile" href="toy-shop/toy-shop.html" data-route="toyShop" data-query="category=creative-stationery">
+              <img src="../assets/images/home/category-creative-stationery.png" width="1024" height="1024" loading="lazy" decoding="async" alt="">
               <span class="text-label-button">Creative stationery</span>
             </a>
           </li>
@@ -181,7 +181,7 @@
       <div class="pp-container home-section__inner">
         <div class="pp-section-header pp-tone-shop">
           <h2 class="text-h2" id="arrivals-title">New arrivals</h2>
-          <a class="pp-link" href="modules/toy-shop/toy-shop.html" data-route="toyShop" data-query="sort=new">
+          <a class="pp-link" href="toy-shop/toy-shop.html" data-route="toyShop" data-query="sort=new">
             See new toys <span class="pp-icon-slot" data-icon="arrow-right" data-size="20"></span>
           </a>
         </div>
@@ -189,7 +189,7 @@
 
           <article class="pp-card pp-tone-shop">
             <div class="pp-card__media home-media--product">
-              <img src="assets/images/home/product-colour-splash-paint-kit.png" width="1024" height="1024" loading="lazy" decoding="async"
+              <img src="../assets/images/home/product-colour-splash-paint-kit.png" width="1024" height="1024" loading="lazy" decoding="async"
                    alt="Watercolour paint set with brushes and a painted card">
             </div>
             <div class="home-product__body">
@@ -203,7 +203,7 @@
 
           <article class="pp-card pp-tone-shop">
             <div class="pp-card__media home-media--product">
-              <img src="assets/images/home/product-brick-builder-castle.png" width="1024" height="1024" loading="lazy" decoding="async"
+              <img src="../assets/images/home/product-brick-builder-castle.png" width="1024" height="1024" loading="lazy" decoding="async"
                    alt="A colourful toy brick castle with towers and flags">
             </div>
             <div class="home-product__body">
@@ -217,7 +217,7 @@
 
           <article class="pp-card pp-tone-shop">
             <div class="pp-card__media home-media--product">
-              <img src="assets/images/home/product-mini-lab-science-kit.png" width="1024" height="1024" loading="lazy" decoding="async"
+              <img src="../assets/images/home/product-mini-lab-science-kit.png" width="1024" height="1024" loading="lazy" decoding="async"
                    alt="A microscope, test tubes and flasks from a mini science lab kit">
             </div>
             <div class="home-product__body">
@@ -231,7 +231,7 @@
 
           <article class="pp-card pp-tone-shop">
             <div class="pp-card__media home-media--product">
-              <img src="assets/images/home/product-doodle-dreams-journal.png" width="1024" height="1024" loading="lazy" decoding="async"
+              <img src="../assets/images/home/product-doodle-dreams-journal.png" width="1024" height="1024" loading="lazy" decoding="async"
                    alt="A doodle journal with coloured pencils">
             </div>
             <div class="home-product__body">
@@ -251,13 +251,13 @@
     <section class="home-section" aria-labelledby="workshop-title">
       <div class="pp-container home-section__inner">
         <div class="home-banner">
-          <img src="assets/images/home/workshop-banner.png" width="1536" height="864" loading="lazy" decoding="async"
+          <img src="../assets/images/home/workshop-banner.png" width="1536" height="864" loading="lazy" decoding="async"
                alt="A child building a small robot kit at a living-room table">
           <div class="home-banner__card pp-tone-activities">
             <span class="pp-tag">Creative Workshops</span>
             <h2 class="text-h2" id="workshop-title">Learn to make something new</h2>
             <p class="text-body home-soft">Join a small group, pick a date and book your spot with a grown-up.</p>
-            <a class="pp-btn" href="modules/activities/activities.html" data-route="activities" data-query="section=workshops">
+            <a class="pp-btn" href="activities/activities.html" data-route="activities" data-query="section=workshops">
               Browse workshops <span class="pp-icon-slot" data-icon="calendar" data-size="20"></span>
             </a>
           </div>
@@ -273,42 +273,42 @@
             <h2 class="text-h2" id="games-title">Pick a game</h2>
             <p class="text-body pp-section-header__sub">Quick games you can play right now. No sign-up needed.</p>
           </div>
-          <a class="pp-link" href="modules/games/games.html" data-route="games">
+          <a class="pp-link" href="games/games.html" data-route="games">
             All games <span class="pp-icon-slot" data-icon="arrow-right" data-size="20"></span>
           </a>
         </div>
         <div class="home-grid home-grid--3">
           <article class="pp-card pp-tone-games">
             <div class="pp-card__media home-media--game">
-              <img src="assets/images/home/game-tic-tac-toe.png" width="1024" height="1024" loading="lazy" decoding="async"
+              <img src="../assets/images/home/game-tic-tac-toe.png" width="1024" height="1024" loading="lazy" decoding="async"
                    alt="A wooden Tic-Tac-Toe board with blue and orange pieces">
             </div>
             <div class="pp-card__body">
               <h3 class="text-h3">Tic-Tac-Toe</h3>
               <p class="text-body home-soft">1–2 players · 2 minutes</p>
-              <a class="pp-btn pp-btn--block" href="modules/games/games.html" data-route="games" data-query="game=tic-tac-toe" aria-label="Play now: Tic-Tac-Toe">Play now</a>
+              <a class="pp-btn pp-btn--block" href="games/games.html" data-route="games" data-query="game=tic-tac-toe" aria-label="Play now: Tic-Tac-Toe">Play now</a>
             </div>
           </article>
           <article class="pp-card pp-tone-games">
             <div class="pp-card__media home-media--game">
-              <img src="assets/images/home/games-preview.png" width="1024" height="1024" loading="lazy" decoding="async"
+              <img src="../assets/images/home/games-preview.png" width="1024" height="1024" loading="lazy" decoding="async"
                    alt="Memory match cards laid out face down, with a few turned over">
             </div>
             <div class="pp-card__body">
               <h3 class="text-h3">Memory Match</h3>
               <p class="text-body home-soft">1 player · 5 levels</p>
-              <a class="pp-btn pp-btn--block" href="modules/games/games.html" data-route="games" data-query="game=memory-match" aria-label="Play now: Memory Match">Play now</a>
+              <a class="pp-btn pp-btn--block" href="games/games.html" data-route="games" data-query="game=memory-match" aria-label="Play now: Memory Match">Play now</a>
             </div>
           </article>
           <article class="pp-card pp-tone-games">
             <div class="pp-card__media home-media--game">
-              <img src="assets/images/home/game-word-scramble.png" width="1024" height="1024" loading="lazy" decoding="async"
+              <img src="../assets/images/home/game-word-scramble.png" width="1024" height="1024" loading="lazy" decoding="async"
                    alt="Wooden letter tiles scattered on a table">
             </div>
             <div class="pp-card__body">
               <h3 class="text-h3">Word Scramble</h3>
               <p class="text-body home-soft">1 player · 3 minutes</p>
-              <a class="pp-btn pp-btn--block" href="modules/games/games.html" data-route="games" data-query="game=word-scramble" aria-label="Play now: Word Scramble">Play now</a>
+              <a class="pp-btn pp-btn--block" href="games/games.html" data-route="games" data-query="game=word-scramble" aria-label="Play now: Word Scramble">Play now</a>
             </div>
           </article>
         </div>
@@ -345,8 +345,8 @@
   </noscript>
 
   <!-- Shared scripts first, then this screen's script -->
-  <script src="js/components.js"></script>
-  <script src="js/main.js"></script>
-  <script src="modules/home/home.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="home/home.js"></script>
 </body>
 </html>
