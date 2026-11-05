@@ -1,0 +1,253 @@
+/* Shared header/footer. Desktop proportions follow the 1440px Figma frames.
+   Local shell variables adapt these components without resizing page content. */
+.pp-site {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+.pp-site > main { flex: 1 0 auto; width: 100%; min-width: 0; }
+.pp-site > [data-component="nav"],
+.pp-site > [data-component="footer"] { flex-shrink: 0; }
+.pp-site > [data-component="footer"] { margin-top: auto; }
+html { scroll-padding-top: calc(var(--site-header-height, 88px) + 16px); }
+
+[data-component="nav"], [data-component="footer"] {
+  --shell-max: 1440px;
+  --shell-gutter: clamp(1.5rem, calc(12.5vw - 7.25rem), 4rem);
+  --shell-text: 1rem;
+  --shell-nav-text: 1.0625rem;
+  font-size: var(--shell-text);
+  line-height: 1.6875;
+}
+.pp-nav__inner, .pp-footer__inner {
+  max-width: var(--shell-max);
+  padding-inline: var(--shell-gutter);
+}
+[data-component="nav"] {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--surface-white);
+  border-bottom: 1px solid var(--surface-line);
+}
+.pp-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 87px;
+}
+.pp-nav__logo {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-ink);
+  font-size: 1.375rem;
+  line-height: 30px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+}
+.pp-nav__mark {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--home-500);
+  color: var(--text-on-accent);
+}
+.pp-nav__menu { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.pp-nav__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: var(--radius-pill);
+  color: var(--text-ink-soft);
+  font-size: var(--shell-nav-text);
+  line-height: 24px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+.pp-nav__link:hover { background: var(--surface-cream); }
+/* Slightly deepen the Figma orange to keep normal-size active text readable. */
+.pp-nav__link.pp-tone-shop { --nav-active-ink: color-mix(in srgb, var(--tone-700) 80%, var(--text-ink)); }
+.pp-nav__link[aria-current="page"] { background: var(--tone-100); color: var(--nav-active-ink, var(--tone-700)); }
+.pp-nav__actions { display: flex; flex: none; align-items: center; gap: 12px; }
+.pp-nav__sound, .pp-nav__search, .pp-nav__search-toggle, .pp-nav__help, .pp-nav__basket {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  font: inherit;
+  line-height: 27px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.pp-nav__sound, .pp-nav__search-toggle {
+  width: 44px;
+  padding: 0;
+  border: 1.5px solid var(--surface-line);
+  background: transparent;
+  color: var(--text-ink);
+  cursor: pointer;
+}
+.pp-nav__search-toggle { display: none; }
+.pp-nav__sound[aria-pressed="true"]::after {
+  content: "";
+  position: absolute;
+  width: 26px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: rotate(-45deg);
+}
+.pp-nav__search {
+  width: 8rem;
+  min-width: 0;
+  padding-inline: 16px;
+  border: 1.5px solid var(--surface-line);
+  color: var(--text-ink-soft);
+  transition: border-color 0.15s ease;
+}
+.pp-nav__search:focus-within { border-color: var(--home-500); outline: var(--focus-ring); outline-offset: 3px; }
+.pp-nav__search input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text-ink);
+  font-size: 1rem;
+}
+.pp-nav__search input::placeholder { color: var(--text-ink-soft); opacity: 1; }
+.pp-nav__help { padding-inline: 16px; border: 0; background: var(--accent-yellow-100); color: var(--text-ink); cursor: pointer; }
+.pp-nav__basket { padding-inline: 16px; border: 0; background: var(--surface-footer); color: var(--text-on-dark); }
+.pp-nav__basket:disabled { cursor: not-allowed; }
+.pp-nav__count {
+  display: grid;
+  flex: none;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding-inline: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-yellow);
+  color: var(--text-on-yellow);
+  font-size: 0.875rem;
+  line-height: 22px;
+  font-weight: 600;
+}
+.pp-nav__count[hidden] { display: none; }
+.pp-nav__sound:hover, .pp-nav__search-toggle:hover { background: var(--surface-cream); border-color: var(--text-ink-soft); }
+.pp-nav__help:hover, .pp-nav__basket:not(:disabled):hover { filter: brightness(0.94); }
+
+/* Figma SVGs retain their exported 22px / 20px geometry, with inherited colour. */
+.pp-shell-icon {
+  display: inline-block;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  background-color: currentColor;
+  -webkit-mask: var(--shell-icon) center / contain no-repeat;
+  mask: var(--shell-icon) center / contain no-repeat;
+}
+.pp-shell-icon--home { --shell-icon: url("../assets/icons/header-footer/home.svg"); }
+.pp-shell-icon--toy-shop { --shell-icon: url("../assets/icons/header-footer/toy-shop.svg"); }
+.pp-shell-icon--games { --shell-icon: url("../assets/icons/header-footer/games.svg"); }
+.pp-shell-icon--activities { --shell-icon: url("../assets/icons/header-footer/activities.svg"); }
+.pp-shell-icon--sound { --shell-icon: url("../assets/icons/header-footer/sound.svg"); }
+.pp-shell-icon--search { --shell-icon: url("../assets/icons/header-footer/search.svg"); }
+.pp-shell-icon--help { --shell-icon: url("../assets/icons/header-footer/help.svg"); }
+.pp-shell-icon--basket { --shell-icon: url("../assets/icons/header-footer/basket.svg"); }
+.pp-shell-icon--search, .pp-shell-icon--help, .pp-shell-icon--basket { width: 20px; height: 20px; }
+
+/* Four equal columns and natural content height match Figma's 383px footer. */
+.pp-footer { background: var(--surface-footer); color: var(--text-on-dark); }
+.pp-footer__inner { display: flex; flex-direction: column; gap: 40px; padding-block: 56px; }
+.pp-footer__columns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(24px, 3.333vw, 48px); }
+.pp-footer__brand, .pp-footer__col { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+.pp-footer__brand { gap: 12px; }
+.pp-footer__name { font-size: 2rem; line-height: 40px; font-weight: 700; letter-spacing: -0.01em; color: var(--text-on-dark); }
+.pp-footer__about { max-width: 32ch; color: var(--text-on-dark-soft); }
+.pp-footer__col { gap: 10px; }
+.pp-footer__title { margin: 0; color: var(--accent-yellow); font-size: 1.125rem; line-height: 24px; font-weight: 600; }
+.pp-footer__col a, .pp-footer__col > [aria-disabled="true"] { max-width: 100%; color: var(--text-on-dark-soft); text-decoration: none; overflow-wrap: anywhere; }
+.pp-footer__col a:hover { color: var(--text-on-dark); text-decoration: underline; text-underline-offset: 4px; }
+.pp-footer__legal { color: var(--text-on-dark-soft); font-size: 0.875rem; line-height: 22px; font-weight: 600; }
+.pp-footer :focus-visible { outline-color: var(--accent-yellow); }
+
+/* Tablet: keep brand and actions together; put all page links on a second row. */
+@media (min-width: 48rem) and (max-width: 74.999rem) {
+  .pp-nav__inner { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px 24px; padding-block: 12px; }
+  .pp-nav__actions { justify-self: end; }
+  .pp-nav__menu { grid-column: 1 / -1; grid-row: 2; justify-content: center; }
+}
+@media (min-width: 40rem) and (max-width: 63.999rem) {
+  .pp-footer__columns { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  .pp-footer__brand { grid-column: 1 / -1; }
+}
+
+/* Phone: two compact rows, plus an on-demand search field. No hidden page links. */
+@media (max-width: 47.999rem) {
+  [data-component="nav"], [data-component="footer"] { --shell-gutter: 16px; }
+  .pp-nav__inner { display: grid; grid-template-columns: minmax(0, 1fr) repeat(4, auto); gap: 8px 6px; min-height: 0; padding-block: 10px; }
+  .pp-nav__logo { grid-column: 1; grid-row: 1; gap: 8px; font-size: 1.25rem; line-height: 28px; }
+  .pp-nav__mark { width: 32px; height: 32px; border-radius: 10px; font-size: 1.125rem; }
+  .pp-nav__actions { display: contents; }
+  .pp-nav__sound { grid-column: 2; grid-row: 1; }
+  .pp-nav__search-toggle { display: inline-flex; grid-column: 3; grid-row: 1; }
+  .pp-nav__help { grid-column: 4; grid-row: 1; width: 44px; padding: 0; }
+  .pp-nav__help > span:not(.pp-shell-icon), .pp-nav__basket .pp-nav__label { display: none; }
+  .pp-nav__basket { grid-column: 5; grid-row: 1; padding-inline: 8px; gap: 4px; }
+  .pp-nav__menu { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-column: 1 / -1; grid-row: 2; gap: 4px; }
+  .pp-nav__link { flex-direction: column; gap: 4px; padding: 8px 2px; min-height: 64px; font-size: 0.875rem; line-height: 20px; border-radius: 16px; }
+  .pp-nav__search { display: none; grid-column: 1 / -1; grid-row: 3; width: 100%; }
+  .is-search-open .pp-nav__search { display: flex; }
+  .pp-footer__inner { padding-block: 40px; gap: 32px; }
+  .pp-footer__columns { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; }
+  .pp-footer__brand { grid-column: 1 / -1; }
+  .pp-footer__col { gap: 0; }
+  .pp-footer__title { margin-bottom: 10px; }
+  .pp-footer__col a, .pp-footer__col > [aria-disabled="true"] { display: flex; align-items: center; min-height: 44px; padding-block: 6px; line-height: 24px; }
+  .pp-footer__col:last-child { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; grid-column: 1 / -1; }
+  .pp-footer__col:last-child .pp-footer__title { grid-column: 1 / -1; }
+  .pp-footer__legal { max-width: 36ch; line-height: 24px; }
+}
+@media (max-width: 22.499rem) {
+  .pp-nav__wordmark { display: none; }
+}
+
+/* Wide displays: a capped reading width and modest type scaling, not stretching. */
+@media (min-width: 112.5rem) {
+  [data-component="nav"], [data-component="footer"] {
+    --shell-max: 1680px;
+    --shell-gutter: 72px;
+    --shell-text: 1.125rem;
+    --shell-nav-text: 1.1875rem;
+  }
+  .pp-nav__inner { min-height: 95px; }
+  .pp-nav__logo { font-size: 1.625rem; }
+  .pp-nav__mark { width: 44px; height: 44px; }
+  .pp-nav__sound, .pp-nav__search, .pp-nav__help, .pp-nav__basket { height: 48px; }
+  .pp-nav__sound { width: 48px; }
+  .pp-nav__search { width: 9rem; }
+  .pp-nav__search input { font-size: var(--shell-text); }
+  .pp-footer__inner { padding-block: 64px; gap: 48px; }
+  .pp-footer__title { font-size: 1.25rem; line-height: 28px; }
+  .pp-footer__name { font-size: 2.25rem; line-height: 44px; }
+  .pp-footer__legal { font-size: 1rem; line-height: 26px; }
+}

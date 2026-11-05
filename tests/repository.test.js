@@ -40,7 +40,7 @@ function element() {
     click() { this.listeners.click(); }
   };
 }
-for (const file of ['modules/games/games.js', 'games.html']) {
+for (const file of ['modules/games/games.js']) {
   for (const resetEvent of ['restart', 'size change']) {
     test(`${file}: ${resetEvent} cancels the old mismatch timer`, () => {
       const source = readFileSync(resolve(root, file), 'utf8');
@@ -79,11 +79,13 @@ for (const file of ['modules/games/games.js', 'games.html']) {
 
 test('shared routes resolve from nested pages and hosted subdirectories', () => {
   const source = readFileSync(resolve(root, 'js/components.js'), 'utf8');
+  const layout = readFileSync(resolve(root, 'js/header-footer.js'), 'utf8');
   const pages = ['modules/index.html', 'modules/activities/activities.html', 'modules/games/games.html', 'modules/toy-shop/toy-shop.html'];
   for (const prefix of ['https://example.test/', 'https://example.test/PlayPal/']) {
     for (const page of pages) {
       const context = { window: {}, URL, document: { currentScript: { src: new URL('js/components.js', prefix).href } } };
       vm.runInNewContext(source, context);
+      vm.runInNewContext(layout, context);
       const pp = context.window.PlayPal;
       for (const key of ['home', 'toyShop', 'games', 'activities']) {
         const href = pp.url(key);
@@ -108,4 +110,59 @@ test('local CSS assets resolve after the restructure', () => {
       assert.ok(existsSync(resolve(dirname(file), decodeURIComponent(url))), `${file}: missing ${url}`);
     }
   }
+});
+
+test('every full page loads one shared header/footer implementation', () => {
+  for (const page of ['modules/index.html', 'modules/activities/activities.html', 'modules/games/games.html', 'modules/toy-shop/toy-shop.html']) {
+    const html = readFileSync(resolve(root, page), 'utf8');
+    assert.equal((html.match(/data-component="nav"/g) || []).length, 1, page);
+    assert.equal((html.match(/data-component="footer"/g) || []).length, 1, page);
+    assert.equal((html.match(/js\/header-footer\.js/g) || []).length, 1, page);
+    assert.equal((html.match(/css\/header-footer\.css/g) || []).length, 1, page);
+    assert.ok(html.indexOf('js/components.js') < html.indexOf('js/header-footer.js'), page);
+    assert.ok(html.indexOf('js/header-footer.js') < html.indexOf('js/main.js'), page);
+    assert.match(html, /<body[^>]*class="pp-site"/, page);
+    assert.doesNotMatch(html, /<header\b|<footer\b/, `${page} duplicates site markup`);
+  }
+  const legacyGames = readFileSync(resolve(root, 'games.html'), 'utf8');
+  assert.match(legacyGames, /location\.replace\("\.\/modules\/games\/games.html" \+ location.search \+ location.hash\)/);
+  assert.doesNotMatch(legacyGames, /const EMOJI|<footer|<header/);
+});
+
+test('header/footer share routes, infer the active page and disable missing destinations', () => {
+  const core = readFileSync(resolve(root, 'js/components.js'), 'utf8');
+  const layout = readFileSync(resolve(root, 'js/header-footer.js'), 'utf8');
+  const context = { window: { location: { pathname: '/PlayPal/modules/games/games.html' } }, URL,
+    document: { currentScript: { src: 'https://example.test/PlayPal/js/components.js' } } };
+  vm.runInNewContext(core, context);
+  vm.runInNewContext(layout, context);
+  const pp = context.window.PlayPal;
+  assert.equal(pp.headerFooter.currentPage(), 'games');
+  const nav = pp.components.nav({ active: pp.headerFooter.currentPage(), mainId: 'main-content' });
+  assert.equal((nav.match(/aria-current="page"/g) || []).length, 1);
+  assert.match(nav, /href="#main-content"/);
+  assert.match(nav, /aria-label="Need help\?"/);
+  assert.match(nav, /data-basket-link disabled/);
+  const footer = pp.components.footer();
+  assert.doesNotMatch(footer, /href="#"/);
+  assert.match(footer, /category=board-games/);
+  pp.routes.parents = 'modules/parents/parents.html';
+  pp.routes.basket = 'modules/basket/basket.html';
+  assert.match(pp.components.footer(), /href="https:\/\/example.test\/PlayPal\/modules\/parents\/parents.html"/);
+  assert.doesNotMatch(pp.components.nav({}), /data-basket-link disabled/);
+});
+
+test('loading the bootstrap twice does not duplicate events or subscriptions', () => {
+  let bindings = 0, readyEvents = 0;
+  const context = { URLSearchParams, CustomEvent: class {},
+    window: { location: { search: '' }, PlayPal: { storage: { get: (_, fallback) => fallback, set() {} },
+      components: {}, headerFooter: { currentPage: () => '', bind() { bindings++; } } } },
+    document: { readyState: 'complete', querySelector: () => null, querySelectorAll: () => [],
+      getElementById: () => ({}), documentElement: { getAttribute: () => null, removeAttribute() {} },
+      dispatchEvent() { readyEvents++; } } };
+  const boot = readFileSync(resolve(root, 'js/main.js'), 'utf8');
+  vm.runInNewContext(boot, context);
+  vm.runInNewContext(boot, context);
+  assert.equal(bindings, 1);
+  assert.equal(readyEvents, 1);
 });

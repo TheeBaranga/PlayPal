@@ -1,13 +1,13 @@
 
 /* ==========================================================================
    PlayPal · js/main.js
-   App bootstrap, shared by every screen. Runs after js/components.js.
+   App bootstrap, shared by every screen. Runs after js/components.js and js/header-footer.js.
 
    What it does (in order):
      1. Applies the saved theme (light / dark)
      2. Mounts shared components into  <div data-component="nav|footer">
      3. Wires global UI: basket badge, sound toggle, help dialog, search
-     4. Resolves  [data-route]  links from PlayPal.routes
+     4. Resolves screen [data-route] links from PlayPal.routes
      5. Fires  "playpal:ready"  – screen scripts use PlayPal.ready(fn)
 
    Per-screen behaviour belongs in modules/<screen>/<screen>.js.
@@ -49,10 +49,12 @@
 
   /* ------------------------------------------------------------------ mount */
   function mountComponents() {
+    var main = document.querySelector("main");
+    var options = { active: PP.headerFooter.currentPage(), mainId: main && main.id || "main" };
     document.querySelectorAll("[data-component]").forEach(function (el) {
       var build = PP.components[el.getAttribute("data-component")];
       if (typeof build === "function") {
-        el.innerHTML = build({ active: el.getAttribute("data-active") || "" });
+        el.innerHTML = build(options);
       }
     });
 
@@ -70,56 +72,8 @@
   }
   PP.mountIcons = mountIcons;
 
-  /* ---------------------------------------------------------------- global UI */
-  function bindBasket() {
-    PP.basket.subscribe(function (n) {
-      document.querySelectorAll("[data-basket-count]").forEach(function (el) {
-        el.textContent = n;
-        el.hidden = n === 0;
-      });
-      document.querySelectorAll("[data-basket-link]").forEach(function (el) {
-        el.setAttribute("aria-label", "Basket, " + n + (n === 1 ? " item" : " items"));
-      });
-    });
-  }
-
-  function bindSound() {
-    document.querySelectorAll("[data-sound-toggle]").forEach(function (btn) {
-      function paint() {
-        var muted = PP.sound.muted();
-        btn.setAttribute("aria-pressed", String(muted));
-        btn.setAttribute("aria-label", "Mute sound");
-        btn.title = muted ? "Sound is off" : "Sound is on";
-      }
-      paint();
-      btn.addEventListener("click", function () {
-        PP.sound.set(!PP.sound.muted());
-        paint();
-      });
-    });
-  }
-
-  function bindHelp() {
-    document.addEventListener("click", function (e) {
-      var trigger = e.target.closest("[data-open-help]");
-      if (!trigger) return;
-      var dialog = document.getElementById("pp-help-dialog");
-      if (dialog && typeof dialog.showModal === "function") dialog.showModal();
-    });
-  }
-
-  function bindSearch() {
-    document.querySelectorAll("[data-search-form]").forEach(function (form) {
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        var q = (form.elements.q.value || "").trim();
-        if (q) window.location.href = PP.url("toyShop", "q=" + encodeURIComponent(q));
-      });
-    });
-  }
-
   function resolveRoutes() {
-    document.querySelectorAll("[data-route]").forEach(function (a) {
+    document.querySelectorAll("main [data-route]").forEach(function (a) {
       var route = a.getAttribute("data-route");
       if (!PP.routes[route]) {
         a.removeAttribute("href");
@@ -133,14 +87,16 @@
 
   /* ------------------------------------------------------------------- boot */
   function boot() {
+    if (PP.isReady) return;
+    if (!PP.headerFooter) {
+      console.error("PlayPal: load js/header-footer.js before js/main.js");
+      return;
+    }
     PP.theme.init();
     mountComponents();
     mountIcons();
     resolveRoutes();
-    bindBasket();
-    bindSound();
-    bindHelp();
-    bindSearch();
+    PP.headerFooter.bind();
     PP.isReady = true;
     document.dispatchEvent(new CustomEvent("playpal:ready"));
   }

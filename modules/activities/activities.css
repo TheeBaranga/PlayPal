@@ -1,27 +1,4 @@
 
-@font-face {
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("../../assets/fonts/activities/plus-jakarta-sans-regular.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("../../assets/fonts/activities/plus-jakarta-sans-semibold.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("../../assets/fonts/activities/plus-jakarta-sans-bold.ttf") format("truetype");
-}
-
-
 /* PLAYPAL — ACTIVITIES */
 
 .activities-container {

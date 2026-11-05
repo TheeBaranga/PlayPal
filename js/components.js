@@ -7,7 +7,8 @@
      PlayPal.icons / icon()  – the Figma icon set as inline SVG (uses currentColor)
      PlayPal.basket          – basket count shared by all screens
      PlayPal.toast.show()    – small feedback message
-     PlayPal.components.nav / footer / helpDialog – shared markup
+     PlayPal.components.helpDialog – shared help markup
+     Header/footer live in js/header-footer.js.
 
    Plain scripts (no ES modules) so index.html also works when opened straight
    from the file system. Load this BEFORE js/main.js.
@@ -110,6 +111,7 @@
   var basketListeners = [];
 
   PP.basket = {
+    key: BASKET_KEY,
     count: function () {
       var n = parseInt(PP.storage.get(BASKET_KEY, SEED_COUNT), 10);
       return isNaN(n) || n < 0 ? 0 : n;
@@ -154,71 +156,7 @@
   };
 
   /* -------------------------------------------------------------- components */
-  var NAV_ITEMS = [
-    { key: "home", label: "Home", icon: "home", tone: "home" },
-    { key: "toyShop", label: "Toy Shop", icon: "toy-shop", tone: "shop" },
-    { key: "games", label: "Games", icon: "games", tone: "games" },
-    { key: "activities", label: "Activities", icon: "activities", tone: "activities" }
-  ];
-
-  var components = (PP.components = {});
-
-  /* nav({ active: 'home' | 'toyShop' | 'games' | 'activities' }) */
-  components.nav = function (opts) {
-    var active = (opts && opts.active) || "";
-    var links = NAV_ITEMS.map(function (item) {
-      var current = item.key === active ? ' aria-current="page"' : "";
-      return (
-        '<a class="pp-nav__link pp-tone-' + item.tone + '" href="' + PP.url(item.key) +
-        '" data-route="' + item.key + '"' + current + ">" + PP.icon(item.icon, 22) +
-        "<span>" + item.label + "</span></a>"
-      );
-    }).join("");
-
-    return (
-      '<header class="pp-nav"><div class="pp-container pp-nav__inner">' +
-      '<a class="pp-nav__logo" href="' + PP.url("home") + '" data-route="home" aria-label="PlayPal home">' +
-      '<span class="pp-nav__mark" aria-hidden="true">P</span>PlayPal</a>' +
-      '<nav class="pp-nav__menu" aria-label="Main">' + links + "</nav>" +
-      '<div class="pp-nav__actions">' +
-      '<button type="button" class="pp-nav__sound" data-sound-toggle aria-pressed="false" aria-label="Sound">' +
-      PP.icon("sound", 22) + "</button>" +
-      '<form class="pp-nav__search" role="search" data-search-form>' + PP.icon("search", 20) +
-      '<label class="pp-visually-hidden" for="pp-search">Search PlayPal</label>' +
-      '<input id="pp-search" name="q" type="search" placeholder="Search" autocomplete="off"></form>' +
-      '<button type="button" class="pp-nav__help" data-open-help>' + PP.icon("help", 20) +
-      "<span>Need help?</span></button>" +
-      '<a class="pp-nav__basket" href="' + PP.url("basket") + '" data-route="basket" data-basket-link>' +
-      PP.icon("basket", 20) + '<span class="pp-nav__label">Basket</span>' +
-      '<span class="pp-nav__count" data-basket-count aria-hidden="true">0</span></a>' +
-      "</div></div></header>"
-    );
-  };
-
-  components.footer = function () {
-    function col(title, links) {
-      return (
-        '<div class="pp-footer__col"><p class="pp-footer__title">' + title + "</p>" +
-        links.map(function (l) {
-          return '<a href="' + PP.url(l[1]) + '" data-route="' + l[1] + '">' + l[0] + "</a>";
-        }).join("") + "</div>"
-      );
-    }
-    return (
-      '<footer class="pp-footer"><div class="pp-container pp-footer__inner">' +
-      '<div class="pp-footer__columns">' +
-      '<div class="pp-footer__brand"><p class="pp-footer__name">PlayPal</p>' +
-      '<p class="pp-footer__about">A safe place to play, make and discover. Made for kids aged 8–12.</p></div>' +
-      col("Explore", [["Home", "home"], ["Toy Shop", "toyShop"], ["Games", "games"], ["Activities", "activities"]]) +
-      col("Toy Shop", [["Board games", "toyShop"], ["Art kits", "toyShop"], ["Building kits", "toyShop"],
-        ["Science kits", "toyShop"], ["Creative stationery", "toyShop"]]) +
-      col("Grown-ups", [["Parents corner", "parents"], ["Safety &amp; privacy", "parents"],
-        ["Delivery &amp; returns", "parents"], ["Contact us", "parents"]]) +
-      "</div>" +
-      '<p class="pp-footer__legal">© 2026 PlayPal · Made for kids aged 8–12</p>' +
-      "</div></footer>"
-    );
-  };
+  var components = (PP.components = PP.components || {});
 
   components.helpDialog = function () {
     function item(tone, icon, text) {
