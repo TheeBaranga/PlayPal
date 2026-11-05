@@ -82,14 +82,16 @@
   footer{text-align:center;color:var(--muted);font-size:.85rem;padding:0 16px 30px}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
+<link rel="stylesheet" href="./css/components.css">
 </head>
 <body>
+<header id="site-header"></header>
 <header>
   <h1>🎮 Play Corner</h1>
   <p>Pick a game from the menu. Everything works with a mouse, a finger or just your keyboard.</p>
 </header>
 
-<main>
+<main id="main-content">
   <!-- STYLE: Menu selection -->
   <nav class="menu" role="tablist" aria-label="Choose a game">
     <button role="tab" id="tab-ttt" aria-selected="true" aria-controls="game-ttt">⭕ Tic-Tac-Toe</button>
@@ -319,9 +321,10 @@
   /* ---------- Memory Match ---------- */
   const EMOJI=['🧸','🚗','🪁','🎨','🧩','🚀','🪀','🎲','🦖','🎈'];
   const mBoard=$('#mem-board'), mStatus=$('#mem-status');
-  let mFirst=null, mLock=false, mMoves=0, mPairs=0, mTotal=0;
+  let mFirst=null, mLock=false, mMoves=0, mPairs=0, mTotal=0, mTimer=null;
   function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
   function mReset(){
+    clearTimeout(mTimer); mTimer=null;
     const pairs=+$('#mem-size').value; mTotal=pairs;
     mFirst=null; mLock=false; mMoves=0; mPairs=0;
     $('#mem-moves').textContent=0; $('#mem-pairs').textContent='0 / '+pairs;
@@ -352,7 +355,7 @@
       else { mStatus.textContent='Match! ✅'; mStatus.className='status good'; }
     } else {
       mStatus.textContent='Not a match. Try again!'; mStatus.className='status bad';
-      setTimeout(()=>{ hide(a.b,a.i); hide(b,i); mLock=false; },800);
+      mTimer=setTimeout(()=>{ hide(a.b,a.i); hide(b,i); mLock=false; mTimer=null; },800);
     }
   }
   $('#mem-reset').addEventListener('click',mReset);
@@ -433,5 +436,7 @@
   sNew();
 })();
 </script>
+<footer id="site-footer"></footer>
+<script type="module" src="./js/main.js"></script>
 </body>
 </html>

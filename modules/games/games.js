@@ -133,9 +133,10 @@
   /* ---------- Memory Match ---------- */
   const EMOJI=['🧸','🚗','🪁','🎨','🧩','🚀','🪀','🎲','🦖','🎈'];
   const mBoard=$('#mem-board'), mStatus=$('#mem-status');
-  let mFirst=null, mLock=false, mMoves=0, mPairs=0, mTotal=0;
+  let mFirst=null, mLock=false, mMoves=0, mPairs=0, mTotal=0, mTimer=null;
   function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
   function mReset(){
+    clearTimeout(mTimer); mTimer=null;
     const pairs=+$('#mem-size').value; mTotal=pairs;
     mFirst=null; mLock=false; mMoves=0; mPairs=0;
     $('#mem-moves').textContent=0; $('#mem-pairs').textContent='0 / '+pairs;
@@ -166,7 +167,7 @@
       else { mStatus.textContent='Match! ✅'; mStatus.className='gm-status gm-good'; }
     } else {
       mStatus.textContent='Not a match. Try again!'; mStatus.className='gm-status gm-bad';
-      setTimeout(()=>{ hide(a.b,a.i); hide(b,i); mLock=false; },800);
+      mTimer=setTimeout(()=>{ hide(a.b,a.i); hide(b,i); mLock=false; mTimer=null; },800);
     }
   }
   $('#mem-reset').addEventListener('click',mReset);

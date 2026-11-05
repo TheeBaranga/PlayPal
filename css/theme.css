@@ -1,0 +1,6 @@
+ :root { color-scheme: light; font-family: "Trebuchet MS", Arial, sans-serif; color: #1f2a4d; background: #fffaf0; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+a { color: #5930b5; }
+button, input, select { font: inherit; }
+a:focus-visible, button:focus-visible { outline: 3px solid #245dc1; outline-offset: 4px; }
