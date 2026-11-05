@@ -120,7 +120,14 @@
 
   function resolveRoutes() {
     document.querySelectorAll("[data-route]").forEach(function (a) {
-      a.setAttribute("href", PP.url(a.getAttribute("data-route"), a.getAttribute("data-query") || ""));
+      var route = a.getAttribute("data-route");
+      if (!PP.routes[route]) {
+        a.removeAttribute("href");
+        a.setAttribute("aria-disabled", "true");
+        a.setAttribute("title", "This page is not available yet.");
+        return;
+      }
+      a.setAttribute("href", PP.url(route, a.getAttribute("data-query") || ""));
     });
   }
 

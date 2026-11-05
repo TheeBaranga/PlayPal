@@ -82,10 +82,11 @@
   footer{text-align:center;color:var(--muted);font-size:.85rem;padding:0 16px 30px}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
+<link rel="stylesheet" href="./css/theme.css">
 <link rel="stylesheet" href="./css/components.css">
 </head>
 <body>
-<header id="site-header"></header>
+<div data-component="nav" data-active="games"></div>
 <header>
   <h1>🎮 Play Corner</h1>
   <p>Pick a game from the menu. Everything works with a mouse, a finger or just your keyboard.</p>
@@ -436,7 +437,8 @@
   sNew();
 })();
 </script>
-<footer id="site-footer"></footer>
-<script type="module" src="./js/main.js"></script>
+<div data-component="footer"></div>
+<script src="./js/components.js"></script>
+<script src="./js/main.js"></script>
 </body>
 </html>

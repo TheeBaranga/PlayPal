@@ -12,17 +12,18 @@
   >
 
   <!-- Shared styles -->
-  <link rel="stylesheet" href="../css/theme.css">
-  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../../css/theme.css">
+  <link rel="stylesheet" href="../../css/components.css">
 
   <!-- Activities styles -->
   <link rel="stylesheet" href="activities.css">
 </head>
 
-<body>
+<body data-page="activities">
+  <a class="pp-skip-link" href="#main-content">Skip to main content</a>
 
   <!-- Shared navigation -->
-  <header id="site-header"></header>
+  <div data-component="nav" data-active="activities"></div>
 
   <main id="main-content">
 
@@ -31,7 +32,7 @@
       <div class="activities-container">
 
         <nav class="activities-breadcrumb" aria-label="Breadcrumb">
-          <a href="../index.html">Home</a>
+          <a href="../index.html" data-route="home">Home</a>
           <span aria-hidden="true">›</span>
           <span aria-current="page">Activities</span>
         </nav>
@@ -161,7 +162,7 @@
                 type="button"
                 >
                 <span id="craft-next-label">Next step</span>
-                <img src="../assets/images/activities/crafts/arrow-right.svg" alt="" width="20" height="20" aria-hidden="true">
+                <img src="../../assets/images/activities/crafts/arrow-right.svg" alt="" width="20" height="20" aria-hidden="true">
                 </button>
             </div>
 
@@ -169,7 +170,7 @@
 
             <img
                 class="activities-craft-image"
-                src="../assets/images/activities/crafts/paper-crafts.png"
+                src="../../assets/images/activities/crafts/paper-crafts.png"
                 alt="Colourful folded paper crafts with glue, scissors and tape"
                 width="220"
                 height="160"
@@ -223,10 +224,11 @@
   </main>
 
   <!-- Shared footer -->
-  <footer id="site-footer"></footer>
+  <div data-component="footer"></div>
 
   <!-- Shared scripts -->
-  <script type="module" src="../js/main.js"></script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/main.js"></script>
 
   <!-- Activities logic -->
   <script

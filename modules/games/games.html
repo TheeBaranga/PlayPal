@@ -4,12 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PlayPal - Games</title>
-<!-- When integrated: add ../../css/theme.css and components.css here -->
+<link rel="stylesheet" href="../../css/theme.css">
+<link rel="stylesheet" href="../../css/components.css">
 <link rel="stylesheet" href="games.css">
 <style>body{margin:0;background:#fff7e6} .page{max-width:860px;margin:0 auto;padding:12px 16px 40px}</style>
 </head>
 <body>
-<div class="page">
+<a class="pp-skip-link" href="#main-content">Skip to main content</a>
+<div data-component="nav" data-active="games"></div>
+<main class="page" id="main-content">
 <div class="games-module" id="games-root">
   <div class="gm-intro">
     <h1>🎮 Play Corner</h1>
@@ -110,7 +113,10 @@
     <p class="gm-center"><b>Score: <span id="scr-score">0</span></b></p>
   </section>
 </div>
-</div>
+</main>
+<div data-component="footer"></div>
+<script src="../../js/components.js"></script>
+<script src="../../js/main.js"></script>
 <script src="games.js"></script>
 </body>
 </html>
