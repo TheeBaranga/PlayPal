@@ -2,7 +2,7 @@
    PlayPal · js/components.js
    Shared building blocks used by every screen:
      PlayPal.routes          – where each page lives (edit paths HERE only)
-     PlayPal.url(key)        – resolve a route (honours <body data-base="../../">)
+     PlayPal.url(key)        – resolve a route (resolves from this shared script location)
      PlayPal.storage         – safe localStorage wrapper
      PlayPal.icons / icon()  – the Figma icon set as inline SVG (uses currentColor)
      PlayPal.basket          – basket count shared by all screens
@@ -18,20 +18,27 @@
   var PP = (window.PlayPal = window.PlayPal || {});
 
   /* ------------------------------------------------------------------ routes
-     One place to change page locations. Paths are relative to index.html.   */
+     One place to change page locations. Paths are relative to the site root.   */
   PP.routes = {
-    home: "index.html",
+    home: "modules/index.html",
     toyShop: "modules/toy-shop/toy-shop.html",
     games: "modules/games/games.html",
     activities: "modules/activities/activities.html",
-    basket: "modules/basket/basket.html",
-    parents: "modules/parents/parents.html"
+    basket: null, // Not implemented yet.
+    parents: null // Not implemented yet.
   };
 
+  // Resolve from the script, so links work from any page depth or hosted subfolder.
+  var siteRoot = new URL("../", document.currentScript.src);
   PP.url = function (key, query) {
-    var base = document.body && document.body.getAttribute("data-base") || "";
-    var path = PP.routes[key] || "#";
-    return base + path + (query ? "?" + query : "");
+    var path = PP.routes[key];
+    if (!path) return "#";
+    var url = new URL(path, siteRoot);
+    if (query) url.search = query;
+    if (key === "activities" && url.searchParams.get("section") === "workshops") {
+      url.hash = "workshops";
+    }
+    return url.href;
   };
 
   /* ----------------------------------------------------------------- helpers */

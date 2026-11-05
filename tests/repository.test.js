@@ -76,3 +76,36 @@ for (const file of ['modules/games/games.js', 'games.html']) {
     });
   }
 }
+
+test('shared routes resolve from nested pages and hosted subdirectories', () => {
+  const source = readFileSync(resolve(root, 'js/components.js'), 'utf8');
+  const pages = ['modules/index.html', 'modules/activities/activities.html', 'modules/games/games.html', 'modules/toy-shop/toy-shop.html'];
+  for (const prefix of ['https://example.test/', 'https://example.test/PlayPal/']) {
+    for (const page of pages) {
+      const context = { window: {}, URL, document: { currentScript: { src: new URL('js/components.js', prefix).href } } };
+      vm.runInNewContext(source, context);
+      const pp = context.window.PlayPal;
+      for (const key of ['home', 'toyShop', 'games', 'activities']) {
+        const href = pp.url(key);
+        assert.equal(href, new URL(pp.routes[key], prefix).href, `${page}: ${key}`);
+        assert.ok(existsSync(resolve(root, pp.routes[key])), `Missing route ${key}`);
+        assert.ok(pp.components.nav({ active: key }).includes(`href="${href}"`));
+        assert.ok(pp.components.footer().includes(`href="${href}"`));
+      }
+      assert.equal(new URL(pp.url('games', 'game=memory-match')).search, '?game=memory-match');
+      assert.equal(new URL(pp.url('activities', 'section=workshops')).hash, '#workshops');
+      assert.equal(pp.url('basket'), '#');
+      assert.equal(pp.url('parents'), '#');
+    }
+  }
+});
+
+test('local CSS assets resolve after the restructure', () => {
+  for (const file of walk(root).filter(path => path.endsWith('.css'))) {
+    const css = readFileSync(file, 'utf8');
+    for (const [, url] of css.matchAll(/url\(["']?([^\s"')]+)["']?\)/g)) {
+      if (/^(?:[a-z]+:|#|\/\/)/i.test(url)) continue;
+      assert.ok(existsSync(resolve(dirname(file), decodeURIComponent(url))), `${file}: missing ${url}`);
+    }
+  }
+});

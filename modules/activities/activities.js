@@ -7,6 +7,9 @@ import {
   requestWorkshopBooking
 } from "./activities-service.js";
 
+// Data paths are site-relative, not relative to the page that renders them.
+const assetUrl = path => new URL(`../../${path}`, import.meta.url).href;
+
 // COLOURING CORNER
 
 function renderColouringSheets() {
@@ -18,7 +21,7 @@ function renderColouringSheets() {
             
         ${sheet.image
         ? `<img
-            src="./${sheet.image}"
+            src="${assetUrl(sheet.image)}"
             alt="${sheet.title} colouring sheet"
             loading="lazy"
             >`
@@ -32,7 +35,7 @@ function renderColouringSheets() {
 
         <a
           class="activities-button activities-button-primary"
-          href="${sheet.download}"
+          href="${assetUrl(sheet.download)}"
           download
           aria-label="Download ${sheet.title} colouring sheet (PDF)"
         >
@@ -93,7 +96,7 @@ function updateCraftStep() {
         ${index === currentStepIndex ? 'aria-current="step"' : ''}>
         <span class="activities-step-number" aria-hidden="true">
           ${index < currentStepIndex
-            ? '<img src="./assets/images/activities/crafts/check.svg" alt="" width="22" height="22">'
+            ? '<img src="../../assets/images/activities/crafts/check.svg" alt="" width="22" height="22">'
             : index + 1}
         </span>
         <span class="activities-step-label">
@@ -137,7 +140,7 @@ function renderWorkshops() {
            
         ${workshop.image
         ? `<img
-            src="./${workshop.image}"
+            src="${assetUrl(workshop.image)}"
             alt="${workshop.title} workshop"
             loading="lazy"
             >`
@@ -230,6 +233,9 @@ function initActivities() {
   renderWorkshops();
   setupWorkshopBooking();
   setupImageFallbacks();
+  if (new URLSearchParams(window.location.search).get("section") === "workshops") {
+    document.getElementById("workshops").scrollIntoView({ block: "start" });
+  }
 }
 
 if (document.readyState === "loading") {

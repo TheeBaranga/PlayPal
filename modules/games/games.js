@@ -246,4 +246,9 @@
   });
   $('#scr-reset').addEventListener('click',sNew);
   sNew();
+
+  // Home-page game links open the requested game directly.
+  const gameTabs = { 'tic-tac-toe': 'tab-ttt', 'memory-match': 'tab-mem', 'word-scramble': 'tab-scr' };
+  const requestedTab = gameTabs[new URLSearchParams(window.location.search).get('game')];
+  if (requestedTab) showTab($('#' + requestedTab));
 })();
