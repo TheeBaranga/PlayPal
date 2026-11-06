@@ -44,7 +44,10 @@
 
       btn.addEventListener("click", function () {
         var name = btn.getAttribute("data-product") || "Item";
-        PP.basket.add(1);
+        var catalog = window.PlayPalShop;
+        var product = catalog && catalog.products.find(function (item) { return item.name === name; });
+        if (product && catalog.cart) catalog.cart.add(product);
+        else PP.basket.add(1);
         PP.toast.show(name + " added to your basket");
 
         /* Immediate on-button feedback so the child knows it worked. */

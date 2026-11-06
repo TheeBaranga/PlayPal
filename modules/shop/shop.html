@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Find board games, art kits, building sets, science kits and creative stationery at the PlayPal Toy Shop.">
+  <meta name="color-scheme" content="light dark">
+  <title>Toy Shop | PlayPal</title>
+  <script>
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search).get("theme");
+        var t = q === "dark" || q === "light" ? q : JSON.parse(localStorage.getItem("playpal.theme") || '"light"');
+        if (t === "dark") document.documentElement.setAttribute("data-theme", "dark");
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../../css/theme.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/header-footer.css">
+  <link rel="stylesheet" href="shop.css">
+</head>
+<body class="pp-site">
+  <div data-component="nav"></div>
+  <main id="main">
+    <section class="shop-hero pp-tone-shop" aria-labelledby="shop-title">
+      <div class="pp-container shop-hero__inner">
+        <div class="shop-hero__copy">
+          <nav class="shop-breadcrumb" aria-label="Breadcrumb">
+            <a href="../index.html" data-route="home">Home</a><span aria-hidden="true">·</span><span>Toy Shop</span>
+          </nav>
+          <h1 class="text-h2" id="shop-title">Toy Shop</h1>
+          <p>Pick a shelf and find your next favourite toy.</p>
+          <form class="shop-search" role="search" data-shop-search>
+            <label class="pp-visually-hidden" for="shop-search-input">Search toys</label>
+            <span class="pp-icon-slot" data-icon="search" data-size="18"></span>
+            <input id="shop-search-input" type="search" name="q" placeholder="What are you looking for?" autocomplete="off">
+            <button type="submit">Find it!</button>
+          </form>
+          <div class="shop-age-tags" aria-label="Shop by age">
+            <span>Try:</span>
+            <button type="button" data-age-shortcut="8">8+</button>
+            <button type="button" data-age-shortcut="10">10+</button>
+            <button type="button" data-age-shortcut="12">12+</button>
+          </div>
+        </div>
+        <div class="shop-hero__image">
+          <img src="../../assets/images/shop/art-watercolor.jpg" width="800" height="800" fetchpriority="high" decoding="async" alt="A colourful watercolor art kit ready for a creative afternoon">
+          <div class="shop-hero__note" data-shop-confirmation hidden><span aria-hidden="true">✓</span><span><strong>Yay! Added to your basket</strong><small>Super fun picks. See what else!</small></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shop-categories pp-container" aria-labelledby="shelf-title">
+      <h2 class="text-label-button" id="shelf-title">Choose a shelf</h2>
+      <div class="shop-category-list" role="group" aria-label="Toy categories" data-category-list></div>
+    </section>
+
+    <section class="shop-products pp-container" aria-labelledby="results-title">
+      <div class="shop-products__heading">
+        <div>
+          <h2 class="text-label-button" id="results-title">Board games</h2>
+          <p class="shop-muted" data-results-count aria-live="polite"></p>
+        </div>
+        <div class="shop-filters">
+          <label class="shop-filter"><span class="pp-visually-hidden">Sort toys</span>
+            <select data-sort>
+              <option value="newest">Sort: Newest</option>
+              <option value="price-low">Price: Low to high</option>
+              <option value="price-high">Price: High to low</option>
+              <option value="rating">Top rated</option>
+            </select>
+          </label>
+          <label class="shop-filter"><span class="pp-visually-hidden">Filter by age</span>
+            <select data-age>
+              <option value="any">Age: Any</option>
+              <option value="8">Age: 8+</option>
+              <option value="10">Age: 10+</option>
+              <option value="12">Age: 12+</option>
+            </select>
+          </label>
+          <label class="shop-filter"><span class="pp-visually-hidden">Filter by price</span>
+            <select data-price>
+              <option value="any">Price: Any</option>
+              <option value="under-1000">Under KSh 1,000</option>
+              <option value="1000-2000">KSh 1,000–2,000</option>
+              <option value="over-2000">Over KSh 2,000</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="shop-grid" data-product-grid aria-live="polite"></div>
+      <p class="shop-empty" data-empty hidden>No toys match those filters. Try another search or shelf.</p>
+      <div class="shop-more">
+        <button type="button" class="pp-btn pp-btn--ghost" data-show-more hidden>Show more toys</button>
+        <p data-page-count></p>
+      </div>
+    </section>
+
+    <section class="shop-basket-banner pp-container" aria-label="Basket reminder">
+      <div class="shop-basket-banner__icon" aria-hidden="true"><span class="pp-icon-slot" data-icon="lock" data-size="18"></span></div>
+      <div class="shop-basket-banner__copy">
+        <strong>Ready to buy? Ask a grown-up first!</strong>
+        <span>A parent or caregiver will help you check out. No payment is taken here.</span>
+      </div>
+      <button type="button" class="pp-btn shop-basket-banner__button" data-open-basket>View my basket</button>
+    </section>
+  </main>
+
+  <dialog class="pp-dialog shop-basket-dialog" id="shop-basket-dialog" aria-labelledby="basket-title">
+    <div class="shop-basket-dialog__heading">
+      <div><h2 class="text-h3" id="basket-title">Your basket</h2><p class="shop-muted" data-basket-summary></p></div>
+      <button class="shop-dialog-close" type="button" data-close-basket aria-label="Close basket">×</button>
+    </div>
+    <div class="shop-basket-items" data-basket-items></div>
+    <div class="shop-basket-total"><strong>Total</strong><strong data-basket-total>KSh 0</strong></div>
+    <p class="shop-basket-note">Ask a grown-up to help with the next step. This demo shop does not take payment.</p>
+    <button class="pp-btn pp-btn--block" type="button" data-close-basket>Keep browsing</button>
+  </dialog>
+
+  <div data-component="footer"></div>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/header-footer.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="products.js"></script>
+  <script src="cart.js"></script>
+  <script src="shop.js"></script>
+</body>
+</html>

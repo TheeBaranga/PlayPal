@@ -29,6 +29,45 @@ test('HTML pages and activity assets resolve to nonempty local files', () => {
     }
   }
 });
+
+test('toy shop catalog photos resolve and adding a toy updates the saved basket', () => {
+  const productsContext = { window: {} };
+  vm.runInNewContext(readFileSync(resolve(root, 'modules/shop/products.js'), 'utf8'), productsContext);
+  const catalog = productsContext.window.PlayPalShop;
+  assert.equal(catalog.categories.length, 5);
+  assert.equal(catalog.products.length, 28);
+  assert.equal(new Set(catalog.products.map(product => product.id)).size, catalog.products.length);
+  for (const product of catalog.products) {
+    const image = resolve(root, 'assets/images/shop', product.image);
+    assert.ok(existsSync(image), `Missing shop photo ${product.image}`);
+    assert.ok(statSync(image).size > 0, `Empty shop photo ${product.image}`);
+  }
+  const home = readFileSync(resolve(root, 'modules/index.html'), 'utf8');
+  const productNames = new Set(catalog.products.map(product => product.name));
+  for (const [, name] of home.matchAll(/data-product="([^"]+)"/g)) {
+    assert.ok(productNames.has(name), `Home product is missing from the shop catalog: ${name}`);
+  }
+
+  let savedItems = [];
+  let basketCount = 0;
+  const cartContext = {
+    window: { PlayPal: {
+      storage: {
+        get: (_, fallback) => savedItems.length ? savedItems : fallback,
+        set: (_, value) => { savedItems = value; }
+      },
+      basket: { add: quantity => { basketCount += quantity; } },
+      escape: value => String(value)
+    }, PlayPalShop: {} },
+    document: { querySelector: () => null }
+  };
+  vm.runInNewContext(readFileSync(resolve(root, 'modules/shop/cart.js'), 'utf8'), cartContext);
+  cartContext.window.PlayPalShop.cart.add(catalog.products[0]);
+  cartContext.window.PlayPalShop.cart.add(catalog.products[0]);
+  assert.equal(savedItems.length, 1);
+  assert.equal(savedItems[0].quantity, 2);
+  assert.equal(basketCount, 2);
+});
 function element() {
   const classes = new Set();
   return {
@@ -80,7 +119,7 @@ for (const file of ['modules/games/games.js']) {
 test('shared routes resolve from nested pages and hosted subdirectories', () => {
   const source = readFileSync(resolve(root, 'js/components.js'), 'utf8');
   const layout = readFileSync(resolve(root, 'js/header-footer.js'), 'utf8');
-  const pages = ['modules/index.html', 'modules/activities/activities.html', 'modules/games/games.html', 'modules/toy-shop/toy-shop.html'];
+  const pages = ['modules/index.html', 'modules/activities/activities.html', 'modules/games/games.html', 'modules/shop/shop.html'];
   for (const prefix of ['https://example.test/', 'https://example.test/PlayPal/']) {
     for (const page of pages) {
       const context = { window: {}, URL, document: { currentScript: { src: new URL('js/components.js', prefix).href } } };
@@ -113,7 +152,7 @@ test('local CSS assets resolve after the restructure', () => {
 });
 
 test('every full page loads one shared header/footer implementation', () => {
-  for (const page of ['modules/index.html', 'modules/activities/activities.html', 'modules/games/games.html', 'modules/toy-shop/toy-shop.html']) {
+  for (const page of ['modules/index.html', 'modules/activities/activities.html', 'modules/games/games.html', 'modules/shop/shop.html']) {
     const html = readFileSync(resolve(root, page), 'utf8');
     assert.equal((html.match(/data-component="nav"/g) || []).length, 1, page);
     assert.equal((html.match(/data-component="footer"/g) || []).length, 1, page);
@@ -127,6 +166,8 @@ test('every full page loads one shared header/footer implementation', () => {
   const legacyGames = readFileSync(resolve(root, 'games.html'), 'utf8');
   assert.match(legacyGames, /location\.replace\("\.\/modules\/games\/games.html" \+ location.search \+ location.hash\)/);
   assert.doesNotMatch(legacyGames, /const EMOJI|<footer|<header/);
+  assert.match(readFileSync(resolve(root, 'shop.html'), 'utf8'), /modules\/shop\/shop\.html/);
+  assert.match(readFileSync(resolve(root, 'modules/toy-shop/toy-shop.html'), 'utf8'), /shop\/shop\.html/);
 });
 
 test('header/footer share routes, infer the active page and disable missing destinations', () => {

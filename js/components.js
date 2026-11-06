@@ -22,7 +22,7 @@
      One place to change page locations. Paths are relative to the site root.   */
   PP.routes = {
     home: "modules/index.html",
-    toyShop: "modules/toy-shop/toy-shop.html",
+    toyShop: "modules/shop/shop.html",
     games: "modules/games/games.html",
     activities: "modules/activities/activities.html",
     basket: null, // Not implemented yet.
@@ -104,9 +104,8 @@
 
   /* ------------------------------------------------------------------ basket
      Count is shared by every screen through localStorage ("playpal.basket").
-     SEED_COUNT = 3 only so the nav matches the Figma mock-up on first load –
-     set it to 0 once real basket data exists.                                */
-  var SEED_COUNT = 3;
+     Keep the first-load count in sync with the real basket contents.          */
+  var SEED_COUNT = 0;
   var BASKET_KEY = "playpal.basket";
   var basketListeners = [];
 

@@ -22,13 +22,15 @@ Checks cover local HTML links, activity assets, PDF signatures, and Memory Match
 
 ## Structure
 
-- `modules/index.html`: Home; `modules/toy-shop/toy-shop.html`, `modules/games/games.html`, and `modules/activities/activities.html`: section pages.
-- `index.html` and `games.html`: compatibility redirects that preserve query strings and fragments.
+- `modules/index.html`: Home; `modules/shop/shop.html`, `modules/games/games.html`, and `modules/activities/activities.html`: section pages.
+- `index.html`, `shop.html`, and `games.html`: compatibility redirects that preserve query strings and fragments.
 - `js/header-footer.js`: the single header/footer implementation, navigation definitions, and control bindings.
 - `css/header-footer.css`: sticky header and footer-at-bottom page layout, inheriting theme tokens and typography.
 - `js/components.js`: routes, icons, storage and other shared primitives; `js/main.js`: one-time page bootstrap.
 - `css/theme.css`: shared tokens, local fonts and base styles; `css/components.css`: generic reusable UI.
 - `modules/activities/`: activity data, rendering and demo booking service.
+- `modules/shop/`: toy catalogue, category/search filters, and persistent demo basket.
+- `assets/images/shop/`: optimized product photography sourced from `photos/toyshop pics/`.
 - `modules/games/`: reusable games module and standalone demo.
 - `assets/downloads/colouring/`: printable A4 colouring PDFs.
 - `photos/`: catalogue photography.
