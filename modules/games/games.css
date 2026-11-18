@@ -1,77 +1,276 @@
-/* PlayPal - Games module. Everything is scoped under .games-module and every class starts with gm-
-   so it cannot clash with css/theme.css or css/components.css.
-   To match the site theme, change the --gm-* variables at the top. */
-  .games-module{
-    --gm-bg:#fff7e6; --gm-card:#ffffff; --gm-ink:#2b2250; --gm-muted:#5b5478;
-    --gm-pink:#ff5d8f; --gm-blue:#2f80ed; --gm-green:#1fa971; --gm-yellow:#ffc928; --gm-purple:#7c4dff;
-    --gm-line:#2b2250; --gm-radius:18px; --gm-shadow:0 6px 0 rgba(43,34,80,.15);
-  
-    font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;font-size:18px;line-height:1.45;color:var(--gm-ink);}
-  .games-module, .games-module *{box-sizing:border-box}
+/* ==========================================================================
+   PlayPal · modules/games/games.css
+   Game-specific styles only. Colours, type, radii and focus rings come from the
+   shared tokens in css/theme.css (so dark mode works automatically); buttons and
+   tags use the shared .pp-btn / .pp-tag from css/components.css.
 
-  /* Menu selection */
-  .gm-menu{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 18px}
-  .games-module .gm-menu button{font:inherit;font-weight:700;padding:14px 22px;min-height:52px;border-radius:999px;
-    border:3px solid var(--gm-line);background:#fff;color:var(--gm-ink);cursor:pointer;box-shadow:var(--gm-shadow)}
-  .games-module .gm-menu button[aria-selected="true"]{background:var(--gm-purple);color:#fff}
+   Every class here starts with "games-". The only rules that touch shared
+   classes are scoped under .games-module so no other page is affected.
+   ========================================================================== */
 
-  .games-module button,.games-module input,.games-module select{font:inherit}
-  .games-module button:focus-visible,.games-module input:focus-visible,.games-module select:focus-visible{outline:4px solid var(--gm-blue);outline-offset:2px}
+/* ---------- Page --------------------------------------------------------- */
+/* The shared shell sets main { width: 100% }, so the width limit lives on the inner wrapper. */
+.games-page {
+  padding-block: 24px 56px;
+}
+.games-module {
+  width: min(100% - 2 * var(--page-gutter), 860px);
+  margin-inline: auto;
+}
 
-  .games-module section.gm-game{background:var(--gm-card);border:3px solid var(--gm-line);border-radius:var(--gm-radius);
-    padding:20px;box-shadow:var(--gm-shadow)}
-  .games-module section.gm-game[hidden]{display:none}
-  .games-module h2{margin:0 0 4px}
-  .gm-style-tag{display:inline-block;background:var(--gm-yellow);border:2px solid var(--gm-line);border-radius:999px;
-    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:10px}
-  .gm-how{background:#f1ecff;border-radius:12px;padding:10px 14px;margin:10px 0 16px;font-size:.92rem}
-  .games-module .gm-how summary{cursor:pointer;font-weight:700}
-  .games-module .gm-how ul{margin:8px 0 0;padding-left:20px}
+.games-intro {
+  text-align: center;
+  padding-bottom: 8px;
+}
+.games-intro h1 {
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.games-intro p {
+  max-width: 640px;
+  margin: 8px auto 0;
+  color: var(--text-ink-soft);
+}
 
-  .gm-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
-  .games-module .gm-controls label{font-weight:700}
-  .games-module select{padding:10px 12px;min-height:46px;border:3px solid var(--gm-line);border-radius:12px;background:#fff;color:var(--gm-ink)}
-  .gm-btn{padding:10px 18px;min-height:46px;border:3px solid var(--gm-line);border-radius:12px;font-weight:700;
-    background:var(--gm-yellow);color:var(--gm-ink);cursor:pointer;box-shadow:0 4px 0 rgba(43,34,80,.2)}
-  .gm-btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(43,34,80,.2)}
-  .gm-btn.gm-alt{background:#fff}
-  .gm-btn:disabled{opacity:.45;cursor:not-allowed}
+/* Shared buttons inside the games: add a disabled look (the shared one has none). */
+.games-module .pp-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
 
-  .gm-status{font-weight:700;min-height:1.6em;margin:6px 0 12px}
-  .gm-status.gm-good{color:var(--gm-green)} .gm-status.gm-bad{color:#c62850}
+/* The shared tag never wraps; let long interaction-style names wrap on small screens. */
+.games-module .pp-tag {
+  white-space: normal;
+}
 
-  /* Tic tac toe */
-  .gm-ttt{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:360px;margin:0 auto}
-  .gm-cell{aspect-ratio:1;font-size:clamp(2.4rem,12vw,3.6rem);font-weight:800;border:3px solid var(--gm-line);
-    border-radius:16px;background:#fff;cursor:pointer;color:var(--gm-ink);min-height:84px}
-  .gm-cell:hover:not(:disabled){background:#eef5ff}
-  .gm-cell.gm-x{color:var(--gm-blue)} .gm-cell.gm-o{color:var(--gm-pink)}
-  .gm-cell.gm-win{background:#d6f7e6;border-color:var(--gm-green)}
-  .gm-cell:disabled{cursor:default}
+/* ---------- Menu (game selection) ----------------------------------------- */
+.games-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px 0 20px;
+}
+.games-module .games-menu__tab[aria-selected="true"] {
+  background: var(--games-500);
+  border-color: var(--games-500);
+  color: var(--text-on-accent);
+}
 
-  /* Memory */
-  .gm-mem{display:grid;gap:10px;max-width:480px;margin:0 auto}
-  .gm-card{aspect-ratio:1;border:3px solid var(--gm-line);border-radius:16px;background:var(--gm-purple);color:#fff;
-    font-size:clamp(1.8rem,9vw,2.6rem);cursor:pointer;min-height:72px;transition:transform .15s}
-  .gm-card:hover:not(:disabled){transform:scale(1.04)}
-  .gm-card.gm-open{background:#fff;color:var(--gm-ink)}
-  .gm-card.gm-done{background:#d6f7e6;border-color:var(--gm-green)}
-  .gm-stats{display:flex;gap:18px;justify-content:center;font-weight:700;margin-top:12px}
+/* ---------- Game panel ---------------------------------------------------- */
+.games-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+  padding: 24px;
+  background: var(--surface-white);
+  border: 1.5px solid var(--surface-line);
+  border-radius: var(--radius-lg);
+}
+.games-panel[hidden] {
+  display: none;
+}
 
-  /* Word scramble */
-  .gm-scr-word{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}
-  .gm-tile{width:52px;height:60px;display:grid;place-items:center;font-size:1.8rem;font-weight:800;
-    background:var(--gm-yellow);border:3px solid var(--gm-line);border-radius:12px;box-shadow:0 4px 0 rgba(43,34,80,.2)}
-  .gm-progress{height:14px;background:#eee;border:2px solid var(--gm-line);border-radius:999px;overflow:hidden;margin:8px 0}
-  .gm-progress div{height:100%;background:var(--gm-green);width:0;transition:width .25s}
-  .games-module form.gm-answer{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:12px 0}
-  .games-module form.gm-answer input{padding:10px 14px;min-height:50px;border:3px solid var(--gm-line);border-radius:12px;
-    font-size:1.2rem;text-transform:uppercase;letter-spacing:2px;width:min(260px,100%)}
-  .gm-hint{text-align:center;color:var(--gm-muted)}
-  .gm-center{text-align:center}
+.games-notes {
+  padding: 10px 16px;
+  background: var(--games-100);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  line-height: 24px;
+}
+.games-notes summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.games-notes ul {
+  margin-top: 8px;
+  padding-left: 20px;
+  list-style: disc;
+}
 
-  @media (prefers-reduced-motion:reduce){.games-module *{transition:none!important}}
+/* ---------- Controls ------------------------------------------------------ */
+.games-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.games-controls--center {
+  justify-content: center;
+}
+.games-controls label {
+  font-weight: 600;
+}
 
-  .games-module .gm-intro{text-align:center;padding:6px 0 4px}
-  .games-module .gm-intro h1{margin:0;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.5px}
-  .games-module .gm-intro p{margin:6px auto 0;max-width:640px;color:var(--gm-muted)}
+.games-select,
+.games-input {
+  min-height: 48px;
+  padding: 0 14px;
+  background: var(--surface-white);
+  color: var(--text-ink);
+  border: 2px solid var(--text-ink-soft);
+  border-radius: var(--radius-sm);
+  font: inherit;
+}
+.games-input {
+  width: min(260px, 100%);
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ---------- Status messages ----------------------------------------------- */
+.games-status {
+  min-height: 27px;
+  font-weight: 700;
+}
+.games-status--good {
+  color: var(--activities-700);
+}
+.games-status--bad {
+  color: var(--shop-700);
+}
+.games-center {
+  text-align: center;
+}
+.games-score {
+  margin-top: 4px;
+}
+
+/* ---------- Boards (Tic-Tac-Toe and Memory Match) -------------------------- */
+.games-board {
+  display: grid;
+  gap: 10px;
+  margin-inline: auto;
+  width: 100%;
+}
+.games-board--ttt {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 360px;
+}
+.games-board--memory {
+  max-width: 480px;
+}
+
+.games-cell {
+  aspect-ratio: 1;
+  min-height: 84px;
+  background: var(--surface-white);
+  color: var(--text-ink);
+  border: 2px solid var(--text-ink);
+  border-radius: var(--radius-md);
+  font-size: clamp(2.4rem, 12vw, 3.6rem);
+  font-weight: 800;
+  cursor: pointer;
+}
+.games-cell:hover:not(:disabled) {
+  background: var(--games-100);
+}
+.games-cell--x {
+  color: var(--home-700);
+}
+.games-cell--o {
+  color: var(--shop-700);
+}
+.games-cell--win {
+  background: var(--activities-100);
+  border-color: var(--activities-500);
+}
+.games-cell:disabled {
+  cursor: default;
+}
+
+.games-memory-card {
+  aspect-ratio: 1;
+  min-height: 72px;
+  background: var(--games-500);
+  color: var(--text-on-accent);
+  border: 2px solid var(--text-ink);
+  border-radius: var(--radius-md);
+  font-size: clamp(1.8rem, 9vw, 2.6rem);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.games-memory-card:hover:not(:disabled) {
+  transform: scale(1.04);
+}
+.games-memory-card--open {
+  background: var(--surface-white);
+  color: var(--text-ink);
+}
+.games-memory-card--done {
+  background: var(--activities-100);
+  border-color: var(--activities-500);
+  color: var(--text-ink);
+}
+
+.games-stats {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  font-weight: 700;
+}
+
+/* ---------- Word Scramble ------------------------------------------------- */
+.games-progress {
+  height: 14px;
+  background: var(--games-100);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.games-progress__bar {
+  height: 100%;
+  width: 0;
+  background: var(--games-500);
+  transition: width 0.25s ease;
+}
+
+.games-play {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.games-play[hidden] {
+  display: none;
+}
+
+.games-letters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.games-tile {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 60px;
+  background: var(--accent-yellow);
+  color: var(--text-on-yellow);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 0 rgba(31, 42, 77, 0.2);
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+.games-hint {
+  text-align: center;
+  color: var(--text-ink-soft);
+}
+.games-answer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* ---------- Small screens ------------------------------------------------- */
+@media (max-width: 720px) {
+  .games-panel {
+    padding: 16px;
+  }
+}

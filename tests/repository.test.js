@@ -79,20 +79,22 @@ function element() {
     click() { this.listeners.click(); }
   };
 }
-for (const file of ['modules/games/games.js']) {
-  for (const resetEvent of ['restart', 'size change']) {
-    test(`${file}: ${resetEvent} cancels the old mismatch timer`, () => {
-      const source = readFileSync(resolve(root, file), 'utf8');
-      const memory = source.slice(source.indexOf('  const EMOJI='), source.indexOf('  /* ---------- Word Scramble'));
-      const nodes = new Map(['mem-board','mem-status','mem-size','mem-moves','mem-pairs','mem-reset'].map(id => ['#'+id, element()]));
-      nodes.get('#mem-size').value = '6';
-      let nextId = 0;
-      const timers = new Map();
-      vm.runInNewContext(memory, {
-        $: id => nodes.get(id), document: { createElement: element },
-        setTimeout: fn => { timers.set(++nextId, fn); return nextId; },
-        clearTimeout: id => timers.delete(id)
-      });
+const memoryNodes = () => new Map(['mem-board','mem-status','mem-size','mem-moves','mem-pairs','mem-reset'].map(id => ['#'+id, element()]));
+
+for (const resetEvent of ['restart', 'size change']) {
+  test(`memory-match.js: ${resetEvent} cancels the old mismatch timer`, async () => {
+    const { initMemoryMatch } = await import('../modules/games/memory-match.js');
+    const nodes = memoryNodes();
+    nodes.get('#mem-size').value = '6';
+    const container = { dataset: {}, querySelector: selector => nodes.get(selector) };
+    let nextId = 0;
+    const timers = new Map();
+    const saved = { document: globalThis.document, setTimeout: globalThis.setTimeout, clearTimeout: globalThis.clearTimeout };
+    globalThis.document = { createElement: element };
+    globalThis.setTimeout = fn => { timers.set(++nextId, fn); return nextId; };
+    globalThis.clearTimeout = id => timers.delete(id);
+    try {
+      initMemoryMatch(container);
       const board = nodes.get('#mem-board');
       function mismatch() {
         const first = board.children[0];
@@ -112,9 +114,33 @@ for (const file of ['modules/games/games.js']) {
       for (const fn of timers.values()) fn();
       third.click();
       assert.equal(third.textContent, third.dataset.e, 'board unlocks after its own delay');
-    });
-  }
+    } finally {
+      for (const [name, value] of Object.entries(saved)) {
+        if (value === undefined) delete globalThis[name]; else globalThis[name] = value;
+      }
+    }
+  });
 }
+
+test('memory-match.js: initialising the same container twice does not duplicate listeners', async () => {
+  const { initMemoryMatch } = await import('../modules/games/memory-match.js');
+  const nodes = memoryNodes();
+  nodes.get('#mem-size').value = '6';
+  let added = 0;
+  const reset = nodes.get('#mem-reset');
+  const addEventListener = reset.addEventListener.bind(reset);
+  reset.addEventListener = (event, fn) => { added++; addEventListener(event, fn); };
+  const container = { dataset: {}, querySelector: selector => nodes.get(selector) };
+  const savedDocument = globalThis.document;
+  globalThis.document = { createElement: element };
+  try {
+    initMemoryMatch(container);
+    initMemoryMatch(container);
+  } finally {
+    if (savedDocument === undefined) delete globalThis.document; else globalThis.document = savedDocument;
+  }
+  assert.equal(added, 1);
+});
 
 test('shared routes resolve from nested pages and hosted subdirectories', () => {
   const source = readFileSync(resolve(root, 'js/components.js'), 'utf8');
